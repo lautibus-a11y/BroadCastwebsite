@@ -189,10 +189,10 @@ const HeroSection = () => {
     <section className="relative min-h-screen flex items-center justify-center px-6 pt-32 pb-20 overflow-hidden bg-[#050505]">
       {/* ESPACIO PARA VIDEO (Reemplazar src con el tuyo) */}
       <div className="absolute inset-0 w-full h-full z-0">
-        <video autoPlay loop muted playsInline className="w-full h-full object-cover opacity-40 mix-blend-screen">
+        <video autoPlay loop muted playsInline className="w-full h-full object-cover opacity-85 mix-blend-screen">
           <source src="https://cdn.pixabay.com/video/2023/10/22/186115-876931580_large.mp4" type="video/mp4" />
         </video>
-        <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/30 via-[#050505]/60 to-[#050505]"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/5 via-[#050505]/20 to-[#050505]/60"></div>
       </div>
 
       <div className="w-full max-w-6xl relative z-10 flex flex-col items-center text-center">

@@ -358,10 +358,10 @@ const HeroSection = () => (
   <section className="relative min-h-screen flex items-center justify-center px-4 md:px-6 pt-24 pb-16 md:pt-32 md:pb-20 overflow-hidden bg-[#050505]">
     {/* Background video */}
     <div className="absolute inset-0 w-full h-full z-0">
-      <video autoPlay loop muted playsInline className="w-full h-full object-cover opacity-30 md:opacity-40 mix-blend-screen">
+      <video autoPlay loop muted playsInline className="w-full h-full object-cover opacity-85 md:opacity-95 mix-blend-screen">
         <source src="/videohero/videohero.mp4" type="video/mp4" />
       </video>
-      <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/40 via-[#050505]/60 to-[#050505]" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/5 via-[#050505]/20 to-[#050505]/60" />
     </div>
 
     <div className="w-full max-w-5xl relative z-10 flex flex-col items-center text-center">
@@ -375,30 +375,6 @@ const HeroSection = () => (
         <Sparkles className="w-3 h-3 md:w-4 md:h-4 text-[#8AFF00]" />
         <span className="text-[10px] md:text-xs uppercase tracking-[0.2em] text-[#F5F3EE]/80 font-medium">Agencia Creativa Digital</span>
       </motion.div>
-
-      {/* Headline */}
-      <motion.h1
-        className="text-4xl sm:text-5xl md:text-7xl lg:text-[6.5rem] font-bold tracking-tighter leading-[1.1] text-[#F5F3EE] mb-5 md:mb-6"
-        initial={{ y: 50, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 1, delay: 0.2 }}
-      >
-        Elevamos tu marca a la{' '}
-        <br className="hidden sm:block" />
-        <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#F5F3EE] via-[#8AFF00] to-[#5EFF00] italic pr-2">
-          nueva realidad digital
-        </span>
-      </motion.h1>
-
-      {/* Subtitle */}
-      <motion.p
-        className="max-w-xl md:max-w-2xl text-base md:text-xl text-[#F5F3EE]/60 font-light mb-8 md:mb-12 leading-relaxed px-2 md:px-0"
-        initial={{ y: 30, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 1, delay: 0.4 }}
-      >
-        Diseñamos y desarrollamos plataformas web premium que combinan estética cinematográfica con rendimiento técnico impecable.
-      </motion.p>
 
       {/* CTAs — menos redondeados */}
       <motion.div
