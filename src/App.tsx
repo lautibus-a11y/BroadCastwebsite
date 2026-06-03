@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { motion, AnimatePresence, useMotionValue, useSpring, useTransform, useAnimation } from 'framer-motion';
 import {
   ArrowUpRight, Sparkles, ChevronDown,
   Instagram, Linkedin, Twitter, Dribbble,
-  Menu, X, ExternalLink
+  Menu, X, ExternalLink, ChevronLeft, ChevronRight, Facebook
 } from 'lucide-react';
 
 // --- DATA & CUSTOM SVGS ---
@@ -123,6 +123,36 @@ const PROCESS = [
 
 const TECH_STACK = ['React', 'GSAP', 'Framer Motion', 'Three.js', 'WebGL', 'Tailwind CSS', 'Next.js', 'TypeScript'];
 
+const TEAM_MEMBERS = [
+  {
+    id: 1,
+    name: 'Santiago Vega',
+    role: 'Director Creativo',
+    image: '/santiago_vega.png',
+    desc: 'Con más de una década liderando proyectos de identidad visual y dirección de arte, Santiago transforma conceptos abstractos en experiencias digitales de alto impacto. Su mirada cinematográfica es el sello creativo que distingue a NEXUS.',
+    accent: '#8AFF00',
+    tags: ['Dirección de Arte', 'Brand Strategy', 'Motion Design'],
+  },
+  {
+    id: 2,
+    name: 'Valentina Rossi',
+    role: 'Directora de Arquitectura',
+    image: '/valentina_rossi.png',
+    desc: 'Especialista en arquitectura de información y sistemas de diseño escalables, Valentina asegura que cada producto no solo luzca impecable, sino que esté construido para perdurar. Lidera la estructuración técnica de cada plataforma con precisión quirúrgica.',
+    accent: '#8AFF00',
+    tags: ['Information Architecture', 'Design Systems', 'UX Strategy'],
+  },
+  {
+    id: 3,
+    name: 'Lucas Ferrer',
+    role: 'Especialista en Marketing Digital',
+    image: '/lucas_ferrer.png',
+    desc: 'Experto en growth hacking, SEO técnico y campañas de performance, Lucas garantiza que cada lanzamiento digital alcance su máximo potencial. Transforma datos en decisiones estratégicas que escalan marcas al siguiente nivel.',
+    accent: '#8AFF00',
+    tags: ['Growth Strategy', 'SEO Técnico', 'Performance Marketing'],
+  },
+];
+
 const FAQS = [
   { q: '¿Cuánto tiempo toma desarrollar un sitio web premium?', a: 'Depende de la complejidad. Un proyecto estándar toma entre 4 a 8 semanas, mientras que plataformas complejas o WebGL pueden tomar de 2 a 4 meses.' },
   { q: '¿Qué tecnologías utilizan?', a: 'Nos especializamos en el ecosistema React (Next.js), Tailwind CSS, Framer Motion y GSAP para animaciones. Para experiencias 3D usamos Three.js.' },
@@ -139,6 +169,50 @@ const useMousePosition = () => {
   }, []);
   return mousePosition;
 };
+
+const scrollToSection = (id: string) => {
+  const el = document.getElementById(id);
+  if (el) {
+    el.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center',
+    });
+  }
+};
+
+const AuroraBackground = () => (
+  <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+    {/* Blob 1 - Verde Neón */}
+    <motion.div
+      animate={{
+        x: ['-20%', '20%', '-10%', '10%', '-20%'],
+        y: ['-15%', '15%', '5%', '-15%', '-15%'],
+        scale: [1, 1.15, 0.9, 1.1, 1],
+      }}
+      transition={{
+        duration: 25,
+        repeat: Infinity,
+        ease: 'easeInOut',
+      }}
+      className="absolute -top-1/4 -left-1/4 w-[80%] h-[80%] md:w-[60%] md:h-[60%] rounded-full bg-[#8AFF00]/8 blur-[60px] md:blur-[150px]"
+    />
+    
+    {/* Blob 2 - Verde Oscuro */}
+    <motion.div
+      animate={{
+        x: ['20%', '-20%', '10%', '-10%', '20%'],
+        y: ['15%', '-15%', '-5%', '15%', '15%'],
+        scale: [1.1, 0.9, 1.15, 0.95, 1.1],
+      }}
+      transition={{
+        duration: 32,
+        repeat: Infinity,
+        ease: 'easeInOut',
+      }}
+      className="absolute -bottom-1/4 -right-1/4 w-[90%] h-[90%] md:w-[70%] md:h-[70%] rounded-full bg-[#429900]/6 blur-[70px] md:blur-[180px]"
+    />
+  </div>
+);
 
 // --- CORE COMPONENTS ---
 const SectionLabel = ({ text }: { text: string }) => (
@@ -219,8 +293,7 @@ const Navbar = () => {
 
   const handleNavClick = (link: string) => {
     setMenuOpen(false);
-    const el = document.getElementById(link.toLowerCase().replace(' ', '-'));
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
+    scrollToSection(link.toLowerCase().replace(' ', '-'));
   };
 
   return (
@@ -233,7 +306,10 @@ const Navbar = () => {
       >
         <div className="flex items-center justify-between px-5 py-3 md:px-8 md:py-4 w-full max-w-5xl mx-auto rounded-2xl md:rounded-full bg-[#050505]/90 border border-white/[0.08] backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
           {/* Logo */}
-          <div className="text-[#F5F3EE] font-bold text-lg md:text-xl tracking-tighter flex items-center gap-2">
+          <div 
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            className="text-[#F5F3EE] font-bold text-lg md:text-xl tracking-tighter flex items-center gap-2 cursor-pointer select-none"
+          >
             <div className="w-2 h-2 rounded-full bg-[#8AFF00] shadow-[0_0_10px_#8AFF00]" />
             NEXUS
           </div>
@@ -253,7 +329,10 @@ const Navbar = () => {
 
           {/* CTA + hamburger */}
           <div className="flex items-center gap-3">
-            <button className="hidden md:block px-5 py-2 rounded-xl bg-[#8AFF00] text-[#050505] text-sm font-semibold hover:shadow-[0_0_20px_rgba(138,255,0,0.3)] transition-all">
+            <button 
+              onClick={() => scrollToSection('contacto')}
+              className="hidden md:block px-5 py-2 rounded-xl bg-[#8AFF00] text-[#050505] text-sm font-semibold hover:shadow-[0_0_20px_rgba(138,255,0,0.3)] transition-all"
+            >
               Iniciar Proyecto
             </button>
             <button
@@ -293,7 +372,10 @@ const Navbar = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.36 }}
-              onClick={() => setMenuOpen(false)}
+              onClick={() => {
+                setMenuOpen(false);
+                scrollToSection('contacto');
+              }}
               className="mt-4 px-8 py-4 rounded-xl bg-[#8AFF00] text-[#050505] text-lg font-bold"
             >
               Iniciar Proyecto
@@ -359,10 +441,16 @@ const HeroSection = () => (
         transition={{ delay: 0.6 }}
         className="flex flex-col sm:flex-row gap-3 md:gap-4 w-full sm:w-auto"
       >
-        <button className="px-6 py-3.5 md:px-8 md:py-4 rounded-xl bg-[#8AFF00] text-[#050505] font-semibold tracking-wide hover:shadow-[0_0_30px_rgba(138,255,0,0.4)] transition-all flex items-center justify-center gap-2 group text-sm md:text-base">
+        <button 
+          onClick={() => scrollToSection('proyectos')}
+          className="px-6 py-3.5 md:px-8 md:py-4 rounded-xl bg-[#8AFF00] text-[#050505] font-semibold tracking-wide hover:shadow-[0_0_30px_rgba(138,255,0,0.4)] transition-all flex items-center justify-center gap-2 group text-sm md:text-base"
+        >
           Ver Proyectos <ArrowUpRight className="w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
         </button>
-        <button className="px-6 py-3.5 md:px-8 md:py-4 rounded-xl bg-[#151615]/50 backdrop-blur-md border border-white/10 text-[#F5F3EE] font-semibold hover:bg-white/10 transition-all text-sm md:text-base">
+        <button 
+          onClick={() => scrollToSection('servicios')}
+          className="px-6 py-3.5 md:px-8 md:py-4 rounded-xl bg-[#151615]/50 backdrop-blur-md border border-white/10 text-[#F5F3EE] font-semibold hover:bg-white/10 transition-all text-sm md:text-base"
+        >
           Servicios
         </button>
       </motion.div>
@@ -398,8 +486,9 @@ const ClientsSection = () => (
 
 // --- 3. SERVICES SECTION ---
 const ServicesSection = () => (
-  <section id="servicios" className="py-16 md:py-32 px-4 md:px-6 bg-[#050505] relative z-10">
-    <div className="max-w-7xl mx-auto">
+  <section id="servicios" className="py-16 md:py-32 px-4 md:px-6 bg-[#050505] relative z-10 overflow-hidden">
+    <AuroraBackground />
+    <div className="max-w-7xl mx-auto relative z-10">
       <SectionLabel text="Áreas de Especialidad" />
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
         {SERVICES.map((service) => (
@@ -474,8 +563,9 @@ const ProjectsSection = () => {
   const visibleProjects = showAll ? PROJECTS : PROJECTS.slice(0, INITIAL_VISIBLE);
 
   return (
-    <section id="proyectos" className="py-16 md:py-32 px-4 md:px-6 bg-[#050505] relative z-10">
-      <div className="max-w-6xl mx-auto">
+    <section id="proyectos" className="py-16 md:py-32 px-4 md:px-6 bg-[#050505] relative z-10 overflow-hidden">
+      <AuroraBackground />
+      <div className="max-w-6xl mx-auto relative z-10">
         <SectionLabel text="Obras Destacadas" />
 
         <div className="flex flex-col gap-5 md:gap-10">
@@ -497,6 +587,7 @@ const ProjectsSection = () => {
                     <img
                       src={project.image}
                       alt={project.title}
+                      loading="lazy"
                       className="w-full h-full object-cover scale-[1.01] group-hover:scale-105 transition-transform duration-[1.5s]"
                     />
                     {/* Gradient overlay with title and button */}
@@ -697,6 +788,291 @@ const WhyUsSection = () => (
   </section>
 );
 
+// --- 7. TEAM SLIDER ---
+const TeamSliderSection = () => {
+  const [current, setCurrent] = useState(0);
+  const [direction, setDirection] = useState(1);
+  const [isDragging, setIsDragging] = useState(false);
+  const dragStartX = useRef(0);
+  const total = TEAM_MEMBERS.length;
+
+  const paginate = useCallback((dir: number) => {
+    setDirection(dir);
+    setCurrent((prev) => (prev + dir + total) % total);
+  }, [total]);
+
+  // Touch / swipe support
+  const handleDragStart = (e: React.TouchEvent | React.MouseEvent) => {
+    setIsDragging(true);
+    dragStartX.current = 'touches' in e ? e.touches[0].clientX : (e as React.MouseEvent).clientX;
+  };
+  const handleDragEnd = (e: React.TouchEvent | React.MouseEvent) => {
+    if (!isDragging) return;
+    setIsDragging(false);
+    const endX = 'changedTouches' in e ? e.changedTouches[0].clientX : (e as React.MouseEvent).clientX;
+    const delta = dragStartX.current - endX;
+    if (Math.abs(delta) > 50) paginate(delta > 0 ? 1 : -1);
+  };
+
+  const slideVariants = {
+    enter: (dir: number) => ({ x: dir > 0 ? '100%' : '-100%', opacity: 0, scale: 0.92 }),
+    center: { x: 0, opacity: 1, scale: 1 },
+    exit: (dir: number) => ({ x: dir > 0 ? '-100%' : '100%', opacity: 0, scale: 0.92 }),
+  };
+
+  const member = TEAM_MEMBERS[current];
+
+  return (
+    <section className="py-16 md:py-24 px-4 md:px-6 bg-[#050505] relative z-10 overflow-hidden">
+      <AuroraBackground />
+      {/* Background accent */}
+      <div
+        className="absolute inset-0 pointer-events-none transition-all duration-1000 z-0"
+        style={{
+          background: `radial-gradient(ellipse 60% 50% at 50% 60%, ${member.accent}18, transparent 70%)`,
+        }}
+      />
+
+      <div className="max-w-6xl mx-auto relative z-10">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="flex justify-center mb-10 md:mb-14"
+        >
+          <div className="bg-white border-[3px] border-[#050505] text-[#050505] px-5 py-2 md:px-8 md:py-3 rounded-full font-bold text-xs md:text-sm tracking-[0.2em] uppercase shadow-[4px_4px_0px_#8AFF00] md:shadow-[6px_6px_0px_#8AFF00] transform -rotate-1 hover:rotate-0 transition-all duration-300">
+            Nuestro Equipo
+          </div>
+        </motion.div>
+
+        <div
+          className="relative overflow-hidden rounded-2xl md:rounded-[2rem] select-none"
+          onMouseDown={handleDragStart}
+          onMouseUp={handleDragEnd}
+          onTouchStart={handleDragStart}
+          onTouchEnd={handleDragEnd}
+          style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
+        >
+          <AnimatePresence mode="wait" custom={direction}>
+            <motion.div
+              key={current}
+              custom={direction}
+              variants={slideVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+              className="grid grid-cols-1 lg:grid-cols-2 min-h-[480px] md:min-h-[560px]"
+            >
+              {/* Photo side */}
+              <div className="relative overflow-hidden rounded-t-2xl lg:rounded-l-[2rem] lg:rounded-tr-none min-h-[260px] md:min-h-[380px] lg:min-h-0">
+                <motion.img
+                  src={member.image}
+                  alt={member.name}
+                  loading="lazy"
+                  className="w-full h-full object-cover object-top"
+                  initial={{ scale: 1.08 }}
+                  animate={{ scale: 1 }}
+                  transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+                />
+                {/* Gradient overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#050505]/80 via-transparent to-transparent lg:bg-gradient-to-r lg:from-transparent lg:to-[#050505]/60" />
+                {/* Accent stripe */}
+                <motion.div
+                  className="absolute bottom-0 left-0 right-0 h-1 lg:h-full lg:w-1 lg:right-0 lg:top-0 lg:left-auto"
+                  style={{ background: member.accent }}
+                  layoutId="accent-stripe"
+                  transition={{ duration: 0.5 }}
+                />
+              </div>
+
+              {/* Content side */}
+              <div
+                className="relative flex flex-col justify-center p-6 md:p-10 lg:p-14"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(21,22,21,0.98) 0%, rgba(10,10,10,0.95) 100%)',
+                  backdropFilter: 'blur(24px)',
+                  borderTop: '1px solid rgba(255,255,255,0.06)',
+                  borderRight: '1px solid rgba(255,255,255,0.06)',
+                  borderBottom: '1px solid rgba(255,255,255,0.06)',
+                }}
+              >
+                {/* Shimmer top */}
+                <div className="absolute top-0 left-6 right-6 h-px" style={{ background: `linear-gradient(90deg, transparent, ${member.accent}60, transparent)` }} />
+
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2, duration: 0.6 }}
+                >
+                  {/* Role badge */}
+                  <span
+                    className="inline-block px-3 py-1 rounded-full text-xs font-bold tracking-[0.15em] uppercase mb-4"
+                    style={{ background: `${member.accent}20`, color: member.accent, border: `1px solid ${member.accent}40` }}
+                  >
+                    {member.role}
+                  </span>
+
+                  <h3 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#F5F3EE] mb-4 leading-tight tracking-tighter">
+                    {member.name}
+                  </h3>
+
+                  <p className="text-[#F5F3EE]/65 text-sm md:text-base leading-relaxed mb-6 md:mb-8">
+                    {member.desc}
+                  </p>
+
+                  {/* Skill tags */}
+                  <div className="flex flex-wrap gap-2 mb-8">
+                    {member.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="px-3 py-1 rounded-full text-[10px] md:text-xs font-semibold tracking-wide text-[#F5F3EE]/70 bg-white/[0.06] border border-white/[0.1] hover:border-white/30 transition-colors"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* Navigation */}
+                  <div className="flex items-center gap-4">
+                    <button
+                      onClick={() => paginate(-1)}
+                      className="w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center border border-white/15 bg-white/5 text-[#F5F3EE]/60 hover:text-[#F5F3EE] hover:border-white/40 hover:bg-white/10 transition-all duration-300 active:scale-90"
+                      aria-label="Anterior"
+                    >
+                      <ChevronLeft className="w-4 h-4 md:w-5 md:h-5" />
+                    </button>
+
+                    {/* Dots */}
+                    <div className="flex gap-2 items-center">
+                      {TEAM_MEMBERS.map((m, i) => (
+                        <button
+                          key={i}
+                          onClick={() => { setDirection(i > current ? 1 : -1); setCurrent(i); }}
+                          className="transition-all duration-400"
+                          aria-label={`Ir a ${m.name}`}
+                        >
+                          <motion.div
+                            animate={{ width: i === current ? 24 : 8, opacity: i === current ? 1 : 0.35 }}
+                            transition={{ duration: 0.3 }}
+                            className="h-2 rounded-full"
+                            style={{ background: i === current ? member.accent : '#fff' }}
+                          />
+                        </button>
+                      ))}
+                    </div>
+
+                    <button
+                      onClick={() => paginate(1)}
+                      className="w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center border border-white/15 bg-white/5 text-[#F5F3EE]/60 hover:text-[#F5F3EE] hover:border-white/40 hover:bg-white/10 transition-all duration-300 active:scale-90"
+                      aria-label="Siguiente"
+                    >
+                      <ChevronRight className="w-4 h-4 md:w-5 md:h-5" />
+                    </button>
+
+                    <span className="ml-auto text-[#F5F3EE]/30 text-sm font-mono tabular-nums">
+                      {String(current + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
+                    </span>
+                  </div>
+                </motion.div>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+// --- LIQUID GLASS SOCIAL FLOATS ---
+const SocialFloat = () => {
+  const socials = [
+    {
+      href: 'https://facebook.com',
+      label: 'Facebook',
+      icon: Facebook,
+    },
+    {
+      href: 'https://instagram.com',
+      label: 'Instagram',
+      icon: Instagram,
+    },
+    {
+      href: 'https://linkedin.com',
+      label: 'LinkedIn',
+      icon: Linkedin,
+    },
+    {
+      href: 'https://twitter.com',
+      label: 'Twitter',
+      icon: Twitter,
+    },
+  ];
+
+  return (
+    <div className="py-10 md:py-16 px-4 md:px-6 bg-[#050505] relative z-10 overflow-hidden">
+      <AuroraBackground />
+      <div className="max-w-6xl mx-auto flex flex-col items-center gap-6 relative z-10">
+        <motion.p
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-[#F5F3EE]/40 text-xs tracking-[0.25em] uppercase font-semibold"
+        >
+          Síguenos en redes
+        </motion.p>
+        <div className="flex flex-wrap justify-center gap-5 md:gap-8">
+          {socials.map((s, i) => (
+            <motion.a
+              key={s.label}
+              href={s.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={s.label}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.12 }}
+              animate={{ y: [0, -6, 0] }}
+              style={{
+                animationDuration: `${4 + i * 0.8}s`,
+                animationIterationCount: 'infinite',
+                animationTimingFunction: 'ease-in-out',
+              }}
+              // @ts-ignore
+              whileHover={{ 
+                scale: 1.08, 
+                y: -8,
+                backgroundColor: 'rgba(138, 255, 0, 0.08)',
+                borderColor: 'rgba(138, 255, 0, 0.4)',
+                boxShadow: '0 12px 40px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.25), 0 0 25px rgba(138, 255, 0, 0.3)',
+              }}
+              whileTap={{ scale: 0.96 }}
+              className="relative flex items-center gap-3 px-5 py-3.5 md:px-7 md:py-4 rounded-2xl group overflow-hidden cursor-pointer transition-all duration-300 bg-white/[0.04] backdrop-blur-2xl border border-white/[0.12] shadow-[0_8px_32px_rgba(0,0,0,0.3),inset_0_1px_1px_rgba(255,255,255,0.15)] text-[#F5F3EE]/75 hover:text-[#8AFF00]"
+            >
+              {/* Liquid glass dynamic reflection sweep */}
+              <div className="absolute -top-full -left-full w-[300%] h-[300%] bg-gradient-to-b from-white/[0.08] via-white/[0.01] to-transparent rotate-45 -translate-x-full group-hover:translate-x-full transition-transform duration-[1200ms] ease-in-out pointer-events-none" />
+              
+              {/* Animated glow on hover */}
+              <div
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-2xl"
+                style={{ background: 'radial-gradient(ellipse at 50% 0%, rgba(138, 255, 0, 0.15), transparent 70%)' }}
+              />
+
+              <s.icon
+                className="w-5 h-5 md:w-6 md:h-6 transition-all duration-300 group-hover:scale-110 relative z-10 text-[#F5F3EE]/75 group-hover:text-[#8AFF00]"
+              />
+              <span className="font-semibold text-sm md:text-base tracking-wide relative z-10 transition-colors duration-300">
+                {s.label}
+              </span>
+            </motion.a>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
 // --- 7. ABOUT ---
 const AboutSection = () => {
   const SKILLS_STATS = [
@@ -707,8 +1083,9 @@ const AboutSection = () => {
   ];
 
   return (
-    <section id="agencia" className="py-16 md:py-32 px-4 md:px-6 bg-[#050505] relative z-10">
-      <div className="max-w-6xl mx-auto">
+    <section id="agencia" className="py-16 md:py-32 px-4 md:px-6 bg-[#050505] relative z-10 overflow-hidden">
+      <AuroraBackground />
+      <div className="max-w-6xl mx-auto relative z-10">
         <SectionLabel text="Conoce el Estudio" />
         <GlassPanel theme="dark" hoverEffect={false} className="p-6 md:p-16 border-[#8AFF00]/10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-16 items-center">
@@ -743,6 +1120,7 @@ const AboutSection = () => {
               <img
                 src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2670&auto=format&fit=crop"
                 alt="Agency Team"
+                loading="lazy"
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-[#8AFF00]/10 mix-blend-overlay" />
@@ -852,7 +1230,7 @@ const FAQSection = () => {
 
 // --- 11. CONTACT ---
 const ContactSection = () => (
-  <section className="py-16 md:py-32 px-4 md:px-6 bg-white relative z-10 overflow-hidden border-t border-black/5">
+  <section id="contacto" className="py-16 md:py-32 px-4 md:px-6 bg-white relative z-10 overflow-hidden border-t border-black/5">
     <div className="max-w-4xl mx-auto text-center relative">
       <SectionLabel text="Inicia tu Proyecto" />
       <div className="absolute inset-0 bg-[#8AFF00]/10 blur-[120px] md:blur-[150px] rounded-full z-[-1]" />
@@ -892,8 +1270,9 @@ const ContactSection = () => (
 
 // --- 12. FOOTER ---
 const Footer = () => (
-  <footer className="pt-12 md:pt-20 pb-8 md:pb-10 px-4 md:px-6 bg-[#050505] text-[#F5F3EE] relative z-10 border-t border-[#8AFF00]/20">
-    <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-12 mb-10 md:mb-16">
+  <footer className="pt-12 md:pt-20 pb-8 md:pb-10 px-4 md:px-6 bg-[#050505] text-[#F5F3EE] relative z-10 border-t border-[#8AFF00]/20 overflow-hidden">
+    <AuroraBackground />
+    <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-12 mb-10 md:mb-16 relative z-10">
       <div className="col-span-1 md:col-span-2">
         <div className="font-bold text-xl md:text-2xl tracking-tighter flex items-center gap-2 mb-4 md:mb-6">
           <div className="w-2 h-2 rounded-full bg-[#8AFF00] shadow-[0_0_10px_#8AFF00]" />
@@ -907,7 +1286,15 @@ const Footer = () => (
         <h4 className="font-bold mb-4 md:mb-6 uppercase tracking-widest text-xs md:text-sm text-[#8AFF00]">Navegación</h4>
         <ul className="space-y-2 md:space-y-3 text-[#F5F3EE]/60 font-medium text-sm md:text-base">
           {['Servicios', 'Proyectos', 'Agencia', 'Contacto'].map((l) => (
-            <li key={l}><a href="#" className="hover:text-[#F5F3EE] transition-colors">{l}</a></li>
+            <li key={l}>
+              <a 
+                href={`#${l.toLowerCase().replace(' ', '-')}`}
+                onClick={(e) => { e.preventDefault(); scrollToSection(l.toLowerCase().replace(' ', '-')); }}
+                className="hover:text-[#F5F3EE] transition-colors"
+              >
+                {l}
+              </a>
+            </li>
           ))}
         </ul>
       </div>
@@ -936,15 +1323,62 @@ const Footer = () => (
   </footer>
 );
 
+// --- SMOOTH SCROLL HOOK ---
+const useSmoothScroll = () => {
+  useEffect(() => {
+    let currentY = window.scrollY;
+    let targetY = window.scrollY;
+    let rafId: number;
+    let isScrolling = false;
+    const ease = 0.082; // smoothing factor — lower = more inertia
+
+    const onWheel = (e: WheelEvent) => {
+      // Only apply on non-touch devices
+      if (e.deltaMode === 0) {
+        e.preventDefault();
+        targetY = Math.max(0, Math.min(document.body.scrollHeight - window.innerHeight, targetY + e.deltaY));
+        if (!isScrolling) {
+          isScrolling = true;
+          raf();
+        }
+      }
+    };
+
+    const raf = () => {
+      const diff = targetY - currentY;
+      if (Math.abs(diff) < 0.5) {
+        currentY = targetY;
+        isScrolling = false;
+        return;
+      }
+      currentY += diff * ease;
+      window.scrollTo(0, currentY);
+      rafId = requestAnimationFrame(raf);
+    };
+
+    // Only enable on desktop
+    const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+    if (!isMobile) {
+      window.addEventListener('wheel', onWheel, { passive: false });
+    }
+
+    return () => {
+      window.removeEventListener('wheel', onWheel);
+      cancelAnimationFrame(rafId);
+    };
+  }, []);
+};
+
 // --- MAIN APP ---
 export default function App() {
+  useSmoothScroll();
+
   return (
     <div
       className="min-h-screen bg-[#050505] text-[#F5F3EE] selection:bg-[#8AFF00] selection:text-[#050505]"
       style={{ fontFamily: '"Inter", "Space Grotesk", system-ui, sans-serif' }}
     >
       <style dangerouslySetInnerHTML={{ __html: `
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700;900&display=swap');
         h1, h2, h3, h4, .font-bold, .font-black { font-family: 'Space Grotesk', sans-serif; }
         html { scroll-behavior: smooth; }
         * { -webkit-tap-highlight-color: transparent; }
@@ -952,6 +1386,10 @@ export default function App() {
         ::-webkit-scrollbar-track { background: #050505; }
         ::-webkit-scrollbar-thumb { background: #151615; border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #8AFF00; }
+        /* Cinematic momentum on anchor links */
+        @media (prefers-reduced-motion: no-preference) {
+          html { scroll-behavior: smooth; }
+        }
       ` }} />
 
       <InteractiveGlow />
@@ -965,6 +1403,8 @@ export default function App() {
         <ProcessSection />
         <WhyUsSection />
         <AboutSection />
+        <TeamSliderSection />
+        <SocialFloat />
         <TechStackSection />
         <TestimonialsSection />
         <FAQSection />
