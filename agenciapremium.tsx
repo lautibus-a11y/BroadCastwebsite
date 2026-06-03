@@ -165,7 +165,7 @@ const Navbar = () => {
     >
       <GlassPanel theme="dark" hoverEffect={false} className="flex items-center justify-between px-8 py-4 w-full max-w-5xl rounded-full bg-[#050505]/80">
         <div className="text-[#F5F3EE] font-bold text-xl tracking-tighter flex items-center gap-2.5">
-          <img src="/logo.jpg" alt="BroadcastWeb Logo" className="w-6 h-6 object-cover rounded-md" />
+          <img src="/logo.png" alt="BroadcastWeb Logo" className="w-6 h-6 object-cover rounded-md" />
           BroadcastWeb
         </div>
         <div className="hidden md:flex gap-8">
