@@ -1369,49 +1369,248 @@ const useSmoothScroll = () => {
   }, []);
 };
 
+// --- CINEMATIC REVEAL LOADER ---
+const CinematicLoader = ({ onComplete }: { onComplete: () => void }) => {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const [progress, setProgress] = useState(0);
+
+  // Progress Counter Simulation
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setProgress((prev) => {
+        if (prev >= 100) {
+          clearInterval(timer);
+          return 100;
+        }
+        const increment = Math.floor(Math.random() * 8) + 3; // 3-10% per step
+        return Math.min(100, prev + increment);
+      });
+    }, 100);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    if (progress === 100) {
+      const delay = setTimeout(() => {
+        onComplete();
+      }, 500);
+      return () => clearTimeout(delay);
+    }
+  }, [progress, onComplete]);
+
+  // Lock scroll
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, []);
+
+  // Particle System (constellation/proton garden)
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let animationId: number;
+    let particles: Array<{
+      x: number;
+      y: number;
+      vx: number;
+      vy: number;
+      radius: number;
+    }> = [];
+
+    // Resize handler
+    const resizeCanvas = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      
+      const count = Math.min(70, Math.floor((canvas.width * canvas.height) / 16000));
+      particles = Array.from({ length: count }, () => ({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 0.9,
+        vy: (Math.random() - 0.5) * 0.9,
+        radius: Math.random() * 1.5 + 1.2,
+      }));
+    };
+
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    // Animation Loop
+    const draw = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // 1. Draw connections (proton bonds)
+      const threshold = Math.min(125, canvas.width / 7);
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < threshold) {
+            const alpha = 1 - dist / threshold;
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.strokeStyle = `rgba(138, 255, 0, ${alpha * 0.15})`;
+            ctx.lineWidth = 0.8;
+            ctx.stroke();
+          }
+        }
+      }
+
+      // 2. Draw & update particles
+      particles.forEach((p) => {
+        p.x += p.vx;
+        p.y += p.vy;
+
+        // Bounce walls
+        if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+        if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+        // Base dot
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fillStyle = '#8AFF00';
+        ctx.fill();
+
+        // Glow ring
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius * 2.5, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(138, 255, 0, 0.15)';
+        ctx.fill();
+      });
+
+      animationId = requestAnimationFrame(draw);
+    };
+
+    draw();
+
+    return () => {
+      window.removeEventListener('resize', resizeCanvas);
+      cancelAnimationFrame(animationId);
+    };
+  }, []);
+
+  return (
+    <motion.div
+      key="cinematic-loader"
+      initial={{ y: 0 }}
+      exit={{ 
+        y: '-100%',
+        transition: { duration: 1.1, ease: [0.76, 0, 0.24, 1] }
+      }}
+      className="fixed inset-0 z-50 bg-[#050505] flex flex-col items-center justify-center overflow-hidden select-none"
+    >
+      <canvas ref={canvasRef} className="absolute inset-0 w-full h-full pointer-events-none z-0" />
+
+      {/* Center content */}
+      <div className="relative z-10 flex flex-col items-center text-center px-4">
+        {/* Glow backdrop */}
+        <div className="absolute w-48 h-48 rounded-full bg-[#8AFF00]/5 blur-[70px] pointer-events-none" />
+
+        <motion.div
+          initial={{ opacity: 0, scale: 0.85 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8 }}
+          className="flex flex-col items-center"
+        >
+          {/* Logo brand */}
+          <h2 className="text-4xl md:text-5xl font-black tracking-[0.25em] text-[#F5F3EE] mb-2 relative">
+            NEXUS
+            <span className="absolute -top-1.5 -right-3 w-1.5 h-1.5 rounded-full bg-[#8AFF00] shadow-[0_0_8px_#8AFF00]" />
+          </h2>
+          
+          <span className="text-[9px] md:text-[10px] tracking-[0.4em] uppercase text-[#F5F3EE]/40 font-medium mb-12">
+            Creative Digital Studio
+          </span>
+
+          {/* Progress number counter */}
+          <div className="font-mono text-5xl md:text-7xl font-bold text-[#8AFF00] tabular-nums tracking-tighter leading-none mb-4 select-none drop-shadow-[0_0_15px_rgba(138,255,0,0.2)]">
+            {String(progress).padStart(3, '0')}
+            <span className="text-xl md:text-2xl font-light text-[#F5F3EE]/50 ml-1">%</span>
+          </div>
+
+          {/* Dynamic text feedback */}
+          <div className="h-5 flex items-center justify-center">
+            <span className="text-[10px] md:text-xs font-mono tracking-[0.2em] text-[#F5F3EE]/60 uppercase">
+              {progress < 30 && 'Inicializando sistemas...'}
+              {progress >= 30 && progress < 60 && 'Cargando malla de protones...'}
+              {progress >= 60 && progress < 90 && 'Alineando interfaz premium...'}
+              {progress >= 90 && 'Listo para el despegue'}
+            </span>
+          </div>
+
+          {/* Loading bar track */}
+          <div className="w-40 md:w-48 h-[2px] bg-white/10 rounded-full overflow-hidden mt-6 relative">
+            <motion.div 
+              className="h-full bg-[#8AFF00] shadow-[0_0_8px_#8AFF00] rounded-full"
+              style={{ width: `${progress}%` }}
+              transition={{ ease: 'easeOut' }}
+            />
+          </div>
+        </motion.div>
+      </div>
+    </motion.div>
+  );
+};
+
 // --- MAIN APP ---
 export default function App() {
   useSmoothScroll();
+  const [loading, setLoading] = useState(true);
 
   return (
-    <div
-      className="min-h-screen bg-[#050505] text-[#F5F3EE] selection:bg-[#8AFF00] selection:text-[#050505]"
-      style={{ fontFamily: '"Inter", "Space Grotesk", system-ui, sans-serif' }}
-    >
-      <style dangerouslySetInnerHTML={{ __html: `
-        h1, h2, h3, h4, .font-bold, .font-black { font-family: 'Space Grotesk', sans-serif; }
-        html { scroll-behavior: smooth; }
-        * { -webkit-tap-highlight-color: transparent; }
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #050505; }
-        ::-webkit-scrollbar-thumb { background: #151615; border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #8AFF00; }
-        /* Cinematic momentum on anchor links */
-        @media (prefers-reduced-motion: no-preference) {
+    <>
+      <AnimatePresence mode="wait">
+        {loading && <CinematicLoader onComplete={() => setLoading(false)} />}
+      </AnimatePresence>
+
+      <div
+        className="min-h-screen bg-[#050505] text-[#F5F3EE] selection:bg-[#8AFF00] selection:text-[#050505]"
+        style={{ fontFamily: '"Inter", "Space Grotesk", system-ui, sans-serif' }}
+      >
+        <style dangerouslySetInnerHTML={{ __html: `
+          h1, h2, h3, h4, .font-bold, .font-black { font-family: 'Space Grotesk', sans-serif; }
           html { scroll-behavior: smooth; }
-        }
-      ` }} />
+          * { -webkit-tap-highlight-color: transparent; }
+          ::-webkit-scrollbar { width: 6px; }
+          ::-webkit-scrollbar-track { background: #050505; }
+          ::-webkit-scrollbar-thumb { background: #151615; border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; }
+          ::-webkit-scrollbar-thumb:hover { background: #8AFF00; }
+          /* Cinematic momentum on anchor links */
+          @media (prefers-reduced-motion: no-preference) {
+            html { scroll-behavior: smooth; }
+          }
+        ` }} />
 
-      <InteractiveGlow />
-      <Navbar />
+        <InteractiveGlow />
+        <Navbar />
 
-      <main>
-        <HeroSection />
-        <ClientsSection />
-        <ServicesSection />
-        <ProjectsSection />
-        <ProcessSection />
-        <WhyUsSection />
-        <AboutSection />
-        <TeamSliderSection />
-        <SocialFloat />
-        <TechStackSection />
-        <TestimonialsSection />
-        <FAQSection />
-        <ContactSection />
-      </main>
+        <main>
+          <HeroSection />
+          <ClientsSection />
+          <ServicesSection />
+          <ProjectsSection />
+          <ProcessSection />
+          <WhyUsSection />
+          <AboutSection />
+          <TeamSliderSection />
+          <SocialFloat />
+          <TechStackSection />
+          <TestimonialsSection />
+          <FAQSection />
+          <ContactSection />
+        </main>
 
-      <Footer />
-    </div>
+        <Footer />
+      </div>
+    </>
   );
 }
