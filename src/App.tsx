@@ -180,40 +180,6 @@ const scrollToSection = (id: string) => {
   }
 };
 
-const AuroraBackground = () => (
-  <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-    {/* Blob 1 - Verde Neón */}
-    <motion.div
-      animate={{
-        x: ['-20%', '20%', '-10%', '10%', '-20%'],
-        y: ['-15%', '15%', '5%', '-15%', '-15%'],
-        scale: [1, 1.15, 0.9, 1.1, 1],
-      }}
-      transition={{
-        duration: 25,
-        repeat: Infinity,
-        ease: 'easeInOut',
-      }}
-      className="absolute -top-1/4 -left-1/4 w-[80%] h-[80%] md:w-[60%] md:h-[60%] rounded-full bg-[#8AFF00]/8 blur-[60px] md:blur-[150px]"
-    />
-    
-    {/* Blob 2 - Verde Oscuro */}
-    <motion.div
-      animate={{
-        x: ['20%', '-20%', '10%', '-10%', '20%'],
-        y: ['15%', '-15%', '-5%', '15%', '15%'],
-        scale: [1.1, 0.9, 1.15, 0.95, 1.1],
-      }}
-      transition={{
-        duration: 32,
-        repeat: Infinity,
-        ease: 'easeInOut',
-      }}
-      className="absolute -bottom-1/4 -right-1/4 w-[90%] h-[90%] md:w-[70%] md:h-[70%] rounded-full bg-[#429900]/6 blur-[70px] md:blur-[180px]"
-    />
-  </div>
-);
-
 // --- CORE COMPONENTS ---
 const SectionLabel = ({ text }: { text: string }) => (
   <motion.div
@@ -486,9 +452,8 @@ const ClientsSection = () => (
 
 // --- 3. SERVICES SECTION ---
 const ServicesSection = () => (
-  <section id="servicios" className="py-16 md:py-32 px-4 md:px-6 bg-[#050505] relative z-10 overflow-hidden">
-    <AuroraBackground />
-    <div className="max-w-7xl mx-auto relative z-10">
+  <section id="servicios" className="py-16 md:py-32 px-4 md:px-6 bg-[#050505] relative z-10">
+    <div className="max-w-7xl mx-auto">
       <SectionLabel text="Áreas de Especialidad" />
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
         {SERVICES.map((service) => (
@@ -563,9 +528,8 @@ const ProjectsSection = () => {
   const visibleProjects = showAll ? PROJECTS : PROJECTS.slice(0, INITIAL_VISIBLE);
 
   return (
-    <section id="proyectos" className="py-16 md:py-32 px-4 md:px-6 bg-[#050505] relative z-10 overflow-hidden">
-      <AuroraBackground />
-      <div className="max-w-6xl mx-auto relative z-10">
+    <section id="proyectos" className="py-16 md:py-32 px-4 md:px-6 bg-[#050505] relative z-10">
+      <div className="max-w-6xl mx-auto">
         <SectionLabel text="Obras Destacadas" />
 
         <div className="flex flex-col gap-5 md:gap-10">
@@ -824,16 +788,15 @@ const TeamSliderSection = () => {
 
   return (
     <section className="py-16 md:py-24 px-4 md:px-6 bg-[#050505] relative z-10 overflow-hidden">
-      <AuroraBackground />
       {/* Background accent */}
       <div
-        className="absolute inset-0 pointer-events-none transition-all duration-1000 z-0"
+        className="absolute inset-0 pointer-events-none transition-all duration-1000"
         style={{
           background: `radial-gradient(ellipse 60% 50% at 50% 60%, ${member.accent}18, transparent 70%)`,
         }}
       />
 
-      <div className="max-w-6xl mx-auto relative z-10">
+      <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -1010,9 +973,8 @@ const SocialFloat = () => {
   ];
 
   return (
-    <div className="py-10 md:py-16 px-4 md:px-6 bg-[#050505] relative z-10 overflow-hidden">
-      <AuroraBackground />
-      <div className="max-w-6xl mx-auto flex flex-col items-center gap-6 relative z-10">
+    <div className="py-10 md:py-16 px-4 md:px-6 bg-[#050505] relative z-10">
+      <div className="max-w-6xl mx-auto flex flex-col items-center gap-6">
         <motion.p
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -1083,9 +1045,8 @@ const AboutSection = () => {
   ];
 
   return (
-    <section id="agencia" className="py-16 md:py-32 px-4 md:px-6 bg-[#050505] relative z-10 overflow-hidden">
-      <AuroraBackground />
-      <div className="max-w-6xl mx-auto relative z-10">
+    <section id="agencia" className="py-16 md:py-32 px-4 md:px-6 bg-[#050505] relative z-10">
+      <div className="max-w-6xl mx-auto">
         <SectionLabel text="Conoce el Estudio" />
         <GlassPanel theme="dark" hoverEffect={false} className="p-6 md:p-16 border-[#8AFF00]/10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-16 items-center">
@@ -1270,9 +1231,8 @@ const ContactSection = () => (
 
 // --- 12. FOOTER ---
 const Footer = () => (
-  <footer className="pt-12 md:pt-20 pb-8 md:pb-10 px-4 md:px-6 bg-[#050505] text-[#F5F3EE] relative z-10 border-t border-[#8AFF00]/20 overflow-hidden">
-    <AuroraBackground />
-    <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-12 mb-10 md:mb-16 relative z-10">
+  <footer className="pt-12 md:pt-20 pb-8 md:pb-10 px-4 md:px-6 bg-[#050505] text-[#F5F3EE] relative z-10 border-t border-[#8AFF00]/20">
+    <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-12 mb-10 md:mb-16">
       <div className="col-span-1 md:col-span-2">
         <div className="font-bold text-xl md:text-2xl tracking-tighter flex items-center gap-2 mb-4 md:mb-6">
           <div className="w-2 h-2 rounded-full bg-[#8AFF00] shadow-[0_0_10px_#8AFF00]" />
@@ -1407,7 +1367,7 @@ const CinematicLoader = ({ onComplete }: { onComplete: () => void }) => {
     };
   }, []);
 
-  // Particle System (constellation/proton garden)
+  // Particle System (electric sparks & arcs)
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -1428,12 +1388,12 @@ const CinematicLoader = ({ onComplete }: { onComplete: () => void }) => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
       
-      const count = Math.min(70, Math.floor((canvas.width * canvas.height) / 16000));
+      const count = Math.min(65, Math.floor((canvas.width * canvas.height) / 18000));
       particles = Array.from({ length: count }, () => ({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
-        vx: (Math.random() - 0.5) * 0.9,
-        vy: (Math.random() - 0.5) * 0.9,
+        vx: (Math.random() - 0.5) * 1.5,
+        vy: (Math.random() - 0.5) * 1.5,
         radius: Math.random() * 1.5 + 1.2,
       }));
     };
@@ -1441,12 +1401,44 @@ const CinematicLoader = ({ onComplete }: { onComplete: () => void }) => {
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
+    // Draw zig-zag electric arcs
+    const drawElectricArc = (x1: number, y1: number, x2: number, y2: number, opacity: number) => {
+      const dx = x2 - x1;
+      const dy = y2 - y1;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      
+      const segments = Math.max(3, Math.floor(dist / 15));
+      ctx.beginPath();
+      ctx.moveTo(x1, y1);
+      
+      for (let i = 1; i < segments; i++) {
+        const t = i / segments;
+        let lx = x1 + dx * t;
+        let ly = y1 + dy * t;
+        
+        const perpX = -dy / dist;
+        const perpY = dx / dist;
+        
+        // Jagged electricity displacement (flickers & shakes)
+        const offset = (Math.random() - 0.5) * 12;
+        lx += perpX * offset;
+        ly += perpY * offset;
+        
+        ctx.lineTo(lx, ly);
+      }
+      
+      ctx.lineTo(x2, y2);
+      ctx.strokeStyle = `rgba(138, 255, 0, ${opacity * (Math.random() > 0.15 ? 0.35 : 0.08)})`;
+      ctx.lineWidth = Math.random() * 1.2 + 0.4;
+      ctx.stroke();
+    };
+
     // Animation Loop
     const draw = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // 1. Draw connections (proton bonds)
-      const threshold = Math.min(125, canvas.width / 7);
+      // 1. Draw electric discharges between close particles
+      const threshold = Math.min(130, canvas.width / 6.5);
       for (let i = 0; i < particles.length; i++) {
         for (let j = i + 1; j < particles.length; j++) {
           const dx = particles[i].x - particles[j].x;
@@ -1455,18 +1447,25 @@ const CinematicLoader = ({ onComplete }: { onComplete: () => void }) => {
 
           if (dist < threshold) {
             const alpha = 1 - dist / threshold;
-            ctx.beginPath();
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.strokeStyle = `rgba(138, 255, 0, ${alpha * 0.15})`;
-            ctx.lineWidth = 0.8;
-            ctx.stroke();
+            drawElectricArc(particles[i].x, particles[i].y, particles[j].x, particles[j].y, alpha);
           }
         }
       }
 
-      // 2. Draw & update particles
+      // 2. Draw & update jittering electric sparks
       particles.forEach((p) => {
+        // Electrical jitter/shake acceleration
+        p.vx += (Math.random() - 0.5) * 0.4;
+        p.vy += (Math.random() - 0.5) * 0.4;
+
+        // Limit speed to retain high energy look
+        const speed = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
+        const maxSpeed = 2.4;
+        if (speed > maxSpeed) {
+          p.vx = (p.vx / speed) * maxSpeed;
+          p.vy = (p.vy / speed) * maxSpeed;
+        }
+
         p.x += p.vx;
         p.y += p.vy;
 
@@ -1474,15 +1473,18 @@ const CinematicLoader = ({ onComplete }: { onComplete: () => void }) => {
         if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
         if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
 
-        // Base dot
+        // Flickering size of sparks
+        const flickerRadius = p.radius * (Math.random() * 0.4 + 0.8);
+
+        // Spark core
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.arc(p.x, p.y, flickerRadius, 0, Math.PI * 2);
         ctx.fillStyle = '#8AFF00';
         ctx.fill();
 
-        // Glow ring
+        // Spark corona glow
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.radius * 2.5, 0, Math.PI * 2);
+        ctx.arc(p.x, p.y, flickerRadius * 2.5, 0, Math.PI * 2);
         ctx.fillStyle = 'rgba(138, 255, 0, 0.15)';
         ctx.fill();
       });
