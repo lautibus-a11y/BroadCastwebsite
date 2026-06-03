@@ -373,7 +373,7 @@ const HeroSection = () => (
         className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full border border-white/10 bg-[#151615]/50 backdrop-blur-md mb-6 md:mb-8"
       >
         <Sparkles className="w-3 h-3 md:w-4 md:h-4 text-[#8AFF00]" />
-        <span className="text-[10px] md:text-xs uppercase tracking-[0.2em] text-[#F5F3EE]/80 font-medium">Agencia Creativa Digital</span>
+        <span className="text-[10px] md:text-xs uppercase tracking-[0.2em] text-[#F5F3EE]/80 font-medium">Agencia de desarrollo web</span>
       </motion.div>
 
       {/* CTAs — menos redondeados */}
@@ -433,6 +433,20 @@ const ClientsSection = () => (
 );
 
 // --- 3. SERVICES SECTION ---
+const serviceCardVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: (id: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: 'easeOut', delay: id * 0.12 }
+  }),
+  hover: {
+    scale: 0.98,
+    y: -5,
+    transition: { type: 'spring', stiffness: 400, damping: 30 }
+  }
+};
+
 const ServicesSection = () => (
   <section id="servicios" className="py-16 md:py-32 px-4 md:px-6 bg-[#050505] relative z-10">
     <div className="max-w-7xl mx-auto">
@@ -441,19 +455,19 @@ const ServicesSection = () => (
         {SERVICES.map((service) => (
           <motion.div
             key={service.id}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            variants={serviceCardVariants}
+            custom={service.id}
+            initial="hidden"
+            whileInView="visible"
+            whileHover="hover"
             viewport={{ once: true, margin: '-50px' }}
-            transition={{ duration: 0.6, ease: 'easeOut', delay: service.id * 0.12 }}
-            whileHover={{ scale: 0.98, y: -5 }}
             className={`
               relative overflow-hidden rounded-2xl md:rounded-[2rem] p-7 md:p-10 flex flex-col justify-between min-h-[240px] md:min-h-[300px] group
               bg-gradient-to-br from-white/[0.07] to-transparent
-              backdrop-blur-3xl
               border border-white/25
               shadow-[0_10px_40px_rgba(0,0,0,0.55),inset_0_1px_0px_rgba(255,255,255,0.35),inset_1px_0px_0px_rgba(255,255,255,0.1)]
               hover:border-white/40 hover:shadow-[0_20px_50px_rgba(0,0,0,0.7),inset_0_1px_0px_rgba(255,255,255,0.5),0_0_0_1px_rgba(138,255,0,0.15)]
-              transition-all duration-500 cursor-pointer
+              transition-[border-color,box-shadow] duration-500 cursor-pointer
               ${service.colSpan}
             `}
           >

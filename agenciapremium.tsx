@@ -201,7 +201,7 @@ const HeroSection = () => {
           className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-[#151615]/50 backdrop-blur-md mb-8"
         >
           <Sparkles className="w-4 h-4 text-[#8AFF00]" />
-          <span className="text-xs uppercase tracking-[0.2em] text-[#F5F3EE]/80 font-medium">Agencia Creativa Digital</span>
+          <span className="text-xs uppercase tracking-[0.2em] text-[#F5F3EE]/80 font-medium">Agencia de desarrollo web</span>
         </motion.div>
 
         <motion.h1 
@@ -273,12 +273,11 @@ const ServicesSection = () => (
             className={`
               relative overflow-hidden rounded-[2rem] p-10 flex flex-col justify-between min-h-[280px] group
               bg-gradient-to-br from-white/[0.08] to-transparent
-              backdrop-blur-3xl
               border-t border-l border-white/[0.2]
               border-b border-r border-white/[0.05]
               shadow-[0_20px_40px_rgba(0,0,0,0.6),inset_0_1px_1px_rgba(255,255,255,0.3)]
               hover:border-[#8AFF00]/30 hover:shadow-[0_20px_40px_rgba(0,0,0,0.8),inset_0_1px_10px_rgba(138,255,0,0.15)]
-              transition-all duration-500 cursor-pointer
+              transition-[border-color,box-shadow] duration-500 cursor-pointer
               ${service.colSpan}
             `}
           >
