@@ -129,7 +129,7 @@ const TEAM_MEMBERS = [
     name: 'Santiago Vega',
     role: 'Director Creativo',
     image: '/santiago_vega.png',
-    desc: 'Con más de una década liderando proyectos de identidad visual y dirección de arte, Santiago transforma conceptos abstractos en experiencias digitales de alto impacto. Su mirada cinematográfica es el sello creativo que distingue a NEXUS.',
+    desc: 'Con más de una década liderando proyectos de identidad visual y dirección de arte, Santiago transforma conceptos abstractos en experiencias digitales de alto impacto. Su mirada cinematográfica es el sello creativo que distingue a BroadcastWeb.',
     accent: '#8AFF00',
     tags: ['Dirección de Arte', 'Brand Strategy', 'Motion Design'],
   },
@@ -277,7 +277,7 @@ const Navbar = () => {
             className="text-[#F5F3EE] font-bold text-lg md:text-xl tracking-tighter flex items-center gap-2 cursor-pointer select-none"
           >
             <div className="w-2 h-2 rounded-full bg-[#8AFF00] shadow-[0_0_10px_#8AFF00]" />
-            NEXUS
+            BroadcastWeb
           </div>
 
           {/* Desktop links */}
@@ -414,7 +414,7 @@ const ClientsSection = () => (
     <motion.div
       className="flex whitespace-nowrap"
       animate={{ x: ['0%', '-50%'] }}
-      transition={{ ease: 'linear', duration: 15, repeat: Infinity }}
+      transition={{ ease: 'linear', duration: 10, repeat: Infinity }}
       style={{ willChange: 'transform' }}
     >
       {[...Array(2)].map((_, i) => (
@@ -1084,7 +1084,7 @@ const AboutSection = () => {
                 Redefiniendo el estándar digital moderno.
               </h3>
               <p className="text-[#F5F3EE]/70 text-base md:text-lg mb-6 md:mb-8 leading-relaxed">
-                NEXUS es una agencia boutique compuesta por diseñadores visionarios y desarrolladores de élite. No usamos plantillas. Cada línea de código y cada pixel están meticulosamente elaborados a medida.
+                BroadcastWeb es una agencia boutique compuesta por diseñadores visionarios y desarrolladores de élite. No usamos plantillas. Cada línea de código y cada pixel están meticulosamente elaborados a medida.
               </p>
               <div className="flex flex-col gap-4 md:gap-6">
                 {SKILLS_STATS.map((stat, idx) => (
@@ -1157,7 +1157,7 @@ const TestimonialsSection = () => (
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-8">
         {[
           { name: 'Sarah L.', role: 'CMO, GlobalTech', text: 'Llevaron nuestra marca al futuro. El nivel de detalle en el diseño y la fluidez de las animaciones superaron nuestras expectativas.' },
-          { name: 'David M.', role: 'Founder, FinEdge', text: 'Buscábamos una agencia que entendiera Web3. Nexus no solo lo entendió, sino que creó la interfaz más premium de nuestro sector.' },
+          { name: 'David M.', role: 'Founder, FinEdge', text: 'Buscábamos una agencia que entendiera Web3. BroadcastWeb no solo lo entendió, sino que creó la interfaz más premium de nuestro sector.' },
           { name: 'Elena R.', role: 'Director, ArtSpace', text: 'Trabajar con ellos es como ver magia. El motor WebGL que construyeron para nuestra galería virtual es simplemente impresionante.' },
         ].map((t, i) => (
           <motion.div
@@ -1295,7 +1295,7 @@ const Footer = () => (
       <div className="col-span-1 md:col-span-2">
         <div className="font-bold text-xl md:text-2xl tracking-tighter flex items-center gap-2 mb-4 md:mb-6">
           <div className="w-2 h-2 rounded-full bg-[#8AFF00] shadow-[0_0_10px_#8AFF00]" />
-          NEXUS AGENCY
+          BroadcastWeb
         </div>
         <p className="text-[#F5F3EE]/50 max-w-sm leading-relaxed text-sm md:text-base">
           Creando experiencias digitales del mañana, hoy. Diseño premium, desarrollo de élite y resultados tangibles.
@@ -1333,7 +1333,7 @@ const Footer = () => (
       </div>
     </div>
     <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center text-xs md:text-sm text-[#F5F3EE]/40 pt-6 md:pt-8 border-t border-white/10 gap-3 md:gap-0">
-      <p>© {new Date().getFullYear()} Nexus Digital Agency. Todos los derechos reservados.</p>
+      <p>© {new Date().getFullYear()} BroadcastWeb. Todos los derechos reservados.</p>
       <div className="flex gap-4 md:gap-6 font-medium">
         <a href="#" className="hover:text-[#8AFF00] transition-colors">Privacidad</a>
         <a href="#" className="hover:text-[#8AFF00] transition-colors">Términos</a>
@@ -1583,8 +1583,8 @@ const CinematicLoader = ({ onComplete }: { onComplete: () => void }) => {
           className="flex flex-col items-center"
         >
           {/* Logo brand */}
-          <h2 className="text-4xl md:text-5xl font-black tracking-[0.25em] text-[#F5F3EE] mb-2 relative">
-            NEXUS
+          <h2 className="text-3xl md:text-4xl font-black tracking-[0.15em] text-[#F5F3EE] mb-2 relative">
+            BroadcastWeb
             <span className="absolute -top-1.5 -right-3 w-1.5 h-1.5 rounded-full bg-[#8AFF00] shadow-[0_0_8px_#8AFF00]" />
           </h2>
           
