@@ -164,8 +164,8 @@ const Navbar = () => {
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 px-6 py-4 flex justify-center ${scrolled ? 'pt-4' : 'pt-8'}`}
     >
       <GlassPanel theme="dark" hoverEffect={false} className="flex items-center justify-between px-8 py-4 w-full max-w-5xl rounded-full bg-[#050505]/80">
-        <div className="text-[#F5F3EE] font-bold text-xl tracking-tighter flex items-center gap-2">
-          <div className="w-2 h-2 rounded-full bg-[#8AFF00] shadow-[0_0_10px_#8AFF00]"></div>
+        <div className="text-[#F5F3EE] font-bold text-xl tracking-tighter flex items-center gap-2.5">
+          <img src="/logo.jpg" alt="BroadcastWeb Logo" className="w-6 h-6 object-cover rounded-md" />
           BroadcastWeb
         </div>
         <div className="hidden md:flex gap-8">

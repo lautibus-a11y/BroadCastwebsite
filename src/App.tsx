@@ -274,9 +274,9 @@ const Navbar = () => {
           {/* Logo */}
           <div 
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            className="text-[#F5F3EE] font-bold text-lg md:text-xl tracking-tighter flex items-center gap-2 cursor-pointer select-none"
+            className="text-[#F5F3EE] font-bold text-lg md:text-xl tracking-tighter flex items-center gap-2.5 cursor-pointer select-none"
           >
-            <div className="w-2 h-2 rounded-full bg-[#8AFF00] shadow-[0_0_10px_#8AFF00]" />
+            <img src="/logo.jpg" alt="BroadcastWeb Logo" className="w-6 h-6 object-cover rounded-md" />
             BroadcastWeb
           </div>
 
