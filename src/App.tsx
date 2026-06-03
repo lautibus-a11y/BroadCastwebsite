@@ -426,7 +426,13 @@ const HeroSection = () => (
 
 // --- 2. CLIENTS MARQUEE (más delgada) ---
 const ClientsSection = () => (
-  <section className="py-3 md:py-4 bg-white border-y-[3px] border-[#8AFF00] relative z-20 overflow-hidden shadow-[0_0_40px_rgba(138,255,0,0.12)]">
+  <motion.section
+    initial={{ opacity: 0 }}
+    whileInView={{ opacity: 1 }}
+    viewport={{ once: true }}
+    transition={{ duration: 0.8 }}
+    className="py-3 md:py-4 bg-white border-y-[3px] border-[#8AFF00] relative z-20 overflow-hidden shadow-[0_0_40px_rgba(138,255,0,0.12)]"
+  >
     <div className="absolute left-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-r from-white to-transparent z-20" />
     <div className="absolute right-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-l from-white to-transparent z-20" />
     <motion.div
@@ -447,7 +453,7 @@ const ClientsSection = () => (
         </div>
       ))}
     </motion.div>
-  </section>
+  </motion.section>
 );
 
 // --- 3. SERVICES SECTION ---
@@ -459,8 +465,11 @@ const ServicesSection = () => (
         {SERVICES.map((service) => (
           <motion.div
             key={service.id}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-50px' }}
+            transition={{ duration: 0.6, ease: 'easeOut', delay: service.id * 0.12 }}
             whileHover={{ scale: 0.98, y: -5 }}
-            transition={{ type: 'spring', stiffness: 400, damping: 30 }}
             className={`
               relative overflow-hidden rounded-2xl md:rounded-[2rem] p-7 md:p-10 flex flex-col justify-between min-h-[240px] md:min-h-[300px] group
               bg-gradient-to-br from-white/[0.07] to-transparent
@@ -786,6 +795,14 @@ const TeamSliderSection = () => {
 
   const member = TEAM_MEMBERS[current];
 
+  // Autoplay
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      paginate(1);
+    }, 5500);
+    return () => clearTimeout(timer);
+  }, [current, paginate]);
+
   return (
     <section className="py-16 md:py-24 px-4 md:px-6 bg-[#050505] relative z-10 overflow-hidden">
       {/* Background accent */}
@@ -825,10 +842,10 @@ const TeamSliderSection = () => {
               animate="center"
               exit="exit"
               transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
-              className="grid grid-cols-1 lg:grid-cols-2 min-h-[480px] md:min-h-[560px]"
+              className="grid grid-cols-1 lg:grid-cols-2 min-h-[400px] lg:min-h-[500px]"
             >
-              {/* Photo side */}
-              <div className="relative overflow-hidden rounded-t-2xl lg:rounded-l-[2rem] lg:rounded-tr-none min-h-[260px] md:min-h-[380px] lg:min-h-0">
+              {/* Photo side - hidden on mobile, block on desktop */}
+              <div className="hidden lg:block relative overflow-hidden lg:rounded-l-[2rem] min-h-[380px] lg:min-h-0">
                 <motion.img
                   src={member.image}
                   alt={member.name}
@@ -839,11 +856,10 @@ const TeamSliderSection = () => {
                   transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
                 />
                 {/* Gradient overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#050505]/80 via-transparent to-transparent lg:bg-gradient-to-r lg:from-transparent lg:to-[#050505]/60" />
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[#050505]/60" />
                 {/* Accent stripe */}
                 <motion.div
-                  className="absolute bottom-0 left-0 right-0 h-1 lg:h-full lg:w-1 lg:right-0 lg:top-0 lg:left-auto"
-                  style={{ background: member.accent }}
+                  className="absolute bottom-0 right-0 top-0 w-1 h-full bg-[#8AFF00]"
                   layoutId="accent-stripe"
                   transition={{ duration: 0.5 }}
                 />
@@ -851,75 +867,93 @@ const TeamSliderSection = () => {
 
               {/* Content side */}
               <div
-                className="relative flex flex-col justify-center p-6 md:p-10 lg:p-14"
+                className="relative flex flex-col justify-between p-5 md:p-8 lg:p-12 lg:rounded-r-[2rem] rounded-2xl lg:rounded-l-none"
                 style={{
                   background: 'linear-gradient(135deg, rgba(21,22,21,0.98) 0%, rgba(10,10,10,0.95) 100%)',
                   backdropFilter: 'blur(24px)',
-                  borderTop: '1px solid rgba(255,255,255,0.06)',
-                  borderRight: '1px solid rgba(255,255,255,0.06)',
-                  borderBottom: '1px solid rgba(255,255,255,0.06)',
+                  border: '1px solid rgba(255,255,255,0.06)',
                 }}
               >
                 {/* Shimmer top */}
-                <div className="absolute top-0 left-6 right-6 h-px" style={{ background: `linear-gradient(90deg, transparent, ${member.accent}60, transparent)` }} />
+                <div className="absolute top-0 left-6 right-6 h-px bg-gradient-to-r from-transparent via-[#8AFF00]/60 to-transparent" />
 
                 <motion.div
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2, duration: 0.6 }}
+                  transition={{ delay: 0.1, duration: 0.5 }}
+                  className="flex flex-col h-full justify-between"
                 >
-                  {/* Role badge */}
-                  <span
-                    className="inline-block px-3 py-1 rounded-full text-xs font-bold tracking-[0.15em] uppercase mb-4"
-                    style={{ background: `${member.accent}20`, color: member.accent, border: `1px solid ${member.accent}40` }}
-                  >
-                    {member.role}
-                  </span>
+                  <div>
+                    {/* Mobile Header: Photo Avatar + Name/Role */}
+                    <div className="flex items-center gap-4 lg:hidden mb-4">
+                      <img
+                        src={member.image}
+                        alt={member.name}
+                        className="w-14 h-14 rounded-full object-cover border-2 border-[#8AFF00]/80 shadow-[0_0_12px_rgba(138,255,0,0.25)]"
+                      />
+                      <div className="flex flex-col">
+                        <span className="text-[10px] font-bold tracking-[0.15em] text-[#8AFF00] uppercase mb-0.5">
+                          {member.role}
+                        </span>
+                        <h3 className="text-lg font-bold text-[#F5F3EE] tracking-tight">
+                          {member.name}
+                        </h3>
+                      </div>
+                    </div>
 
-                  <h3 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#F5F3EE] mb-4 leading-tight tracking-tighter">
-                    {member.name}
-                  </h3>
+                    {/* Desktop Badge */}
+                    <span
+                      className="hidden lg:inline-block px-3 py-1 rounded-full text-xs font-bold tracking-[0.15em] uppercase mb-4 bg-[#8AFF00]/20 text-[#8AFF00] border border-[#8AFF00]/40"
+                    >
+                      {member.role}
+                    </span>
 
-                  <p className="text-[#F5F3EE]/65 text-sm md:text-base leading-relaxed mb-6 md:mb-8">
-                    {member.desc}
-                  </p>
+                    {/* Desktop Name */}
+                    <h3 className="hidden lg:block text-3xl lg:text-4xl font-bold text-[#F5F3EE] mb-4 leading-tight tracking-tighter">
+                      {member.name}
+                    </h3>
 
-                  {/* Skill tags */}
-                  <div className="flex flex-wrap gap-2 mb-8">
-                    {member.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="px-3 py-1 rounded-full text-[10px] md:text-xs font-semibold tracking-wide text-[#F5F3EE]/70 bg-white/[0.06] border border-white/[0.1] hover:border-white/30 transition-colors"
-                      >
-                        {tag}
-                      </span>
-                    ))}
+                    {/* Description - compact & readable */}
+                    <p className="text-[#F5F3EE]/75 text-xs md:text-sm lg:text-base leading-relaxed mb-4 md:mb-6">
+                      {member.desc}
+                    </p>
+
+                    {/* Skill tags */}
+                    <div className="flex flex-wrap gap-1.5 mb-5 md:mb-6">
+                      {member.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="px-2.5 py-0.5 rounded-full text-[9px] md:text-xs font-semibold tracking-wide text-[#F5F3EE]/70 bg-white/[0.05] border border-white/[0.08]"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
                   </div>
 
                   {/* Navigation */}
-                  <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-4 border-t border-white/5 pt-4 mt-auto">
                     <button
                       onClick={() => paginate(-1)}
-                      className="w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center border border-white/15 bg-white/5 text-[#F5F3EE]/60 hover:text-[#F5F3EE] hover:border-white/40 hover:bg-white/10 transition-all duration-300 active:scale-90"
+                      className="w-9 h-9 md:w-11 md:h-11 rounded-full flex items-center justify-center border border-white/10 bg-white/5 text-[#F5F3EE]/60 hover:text-[#8AFF00] hover:border-[#8AFF00]/30 hover:bg-white/10 transition-all duration-300 active:scale-90"
                       aria-label="Anterior"
                     >
                       <ChevronLeft className="w-4 h-4 md:w-5 md:h-5" />
                     </button>
 
                     {/* Dots */}
-                    <div className="flex gap-2 items-center">
+                    <div className="flex gap-1.5 items-center">
                       {TEAM_MEMBERS.map((m, i) => (
                         <button
                           key={i}
                           onClick={() => { setDirection(i > current ? 1 : -1); setCurrent(i); }}
-                          className="transition-all duration-400"
+                          className="p-1"
                           aria-label={`Ir a ${m.name}`}
                         >
                           <motion.div
-                            animate={{ width: i === current ? 24 : 8, opacity: i === current ? 1 : 0.35 }}
+                            animate={{ width: i === current ? 18 : 6, opacity: i === current ? 1 : 0.3 }}
                             transition={{ duration: 0.3 }}
-                            className="h-2 rounded-full"
-                            style={{ background: i === current ? member.accent : '#fff' }}
+                            className="h-1.5 rounded-full bg-[#8AFF00]"
                           />
                         </button>
                       ))}
@@ -927,13 +961,13 @@ const TeamSliderSection = () => {
 
                     <button
                       onClick={() => paginate(1)}
-                      className="w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center border border-white/15 bg-white/5 text-[#F5F3EE]/60 hover:text-[#F5F3EE] hover:border-white/40 hover:bg-white/10 transition-all duration-300 active:scale-90"
+                      className="w-9 h-9 md:w-11 md:h-11 rounded-full flex items-center justify-center border border-white/10 bg-white/5 text-[#F5F3EE]/60 hover:text-[#8AFF00] hover:border-[#8AFF00]/30 hover:bg-white/10 transition-all duration-300 active:scale-90"
                       aria-label="Siguiente"
                     >
                       <ChevronRight className="w-4 h-4 md:w-5 md:h-5" />
                     </button>
 
-                    <span className="ml-auto text-[#F5F3EE]/30 text-sm font-mono tabular-nums">
+                    <span className="ml-auto text-[#F5F3EE]/30 text-xs font-mono tabular-nums">
                       {String(current + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
                     </span>
                   </div>
@@ -1050,7 +1084,12 @@ const AboutSection = () => {
         <SectionLabel text="Conoce el Estudio" />
         <GlassPanel theme="dark" hoverEffect={false} className="p-6 md:p-16 border-[#8AFF00]/10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-16 items-center">
-            <div>
+            <motion.div
+              initial={{ opacity: 0, x: -40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: '-100px' }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            >
               <h3 className="text-2xl md:text-4xl font-bold text-[#F5F3EE] mb-4 md:mb-6 leading-tight">
                 Redefiniendo el estándar digital moderno.
               </h3>
@@ -1076,8 +1115,14 @@ const AboutSection = () => {
                   </div>
                 ))}
               </div>
-            </div>
-            <div className="relative h-[240px] md:h-[500px] rounded-2xl md:rounded-[2rem] overflow-hidden grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition-all duration-700">
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.92 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true, margin: '-100px' }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              className="relative h-[240px] md:h-[500px] rounded-2xl md:rounded-[2rem] overflow-hidden grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition-all duration-700"
+            >
               <img
                 src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2670&auto=format&fit=crop"
                 alt="Agency Team"
@@ -1085,7 +1130,7 @@ const AboutSection = () => {
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-[#8AFF00]/10 mix-blend-overlay" />
-            </div>
+            </motion.div>
           </div>
         </GlassPanel>
       </div>
@@ -1124,21 +1169,30 @@ const TestimonialsSection = () => (
           { name: 'David M.', role: 'Founder, FinEdge', text: 'Buscábamos una agencia que entendiera Web3. Nexus no solo lo entendió, sino que creó la interfaz más premium de nuestro sector.' },
           { name: 'Elena R.', role: 'Director, ArtSpace', text: 'Trabajar con ellos es como ver magia. El motor WebGL que construyeron para nuestra galería virtual es simplemente impresionante.' },
         ].map((t, i) => (
-          <GlassPanel key={i} theme="light" className="p-6 md:p-8 relative">
-            <div className="absolute top-5 right-6 text-[#050505]/10 font-serif text-5xl md:text-6xl leading-none">"</div>
-            <div className="flex gap-1 mb-4 md:mb-6 text-[#8AFF00]">
-              {[1, 2, 3, 4, 5].map(star => (
-                <svg key={star} className="w-4 h-4 md:w-5 md:h-5 fill-current" viewBox="0 0 20 20">
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-              ))}
-            </div>
-            <p className="text-[#050505]/70 italic mb-6 md:mb-8 text-sm md:text-base leading-relaxed relative z-10">"{t.text}"</p>
-            <div>
-              <p className="font-bold text-[#050505] text-sm md:text-base">{t.name}</p>
-              <p className="text-[#050505]/50 text-xs md:text-sm font-medium tracking-wide">{t.role}</p>
-            </div>
-          </GlassPanel>
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-50px' }}
+            transition={{ duration: 0.7, delay: i * 0.15, ease: 'easeOut' }}
+            className="h-full"
+          >
+            <GlassPanel theme="light" className="p-6 md:p-8 relative h-full">
+              <div className="absolute top-5 right-6 text-[#050505]/10 font-serif text-5xl md:text-6xl leading-none">"</div>
+              <div className="flex gap-1 mb-4 md:mb-6 text-[#8AFF00]">
+                {[1, 2, 3, 4, 5].map(star => (
+                  <svg key={star} className="w-4 h-4 md:w-5 md:h-5 fill-current" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                ))}
+              </div>
+              <p className="text-[#050505]/70 italic mb-6 md:mb-8 text-sm md:text-base leading-relaxed relative z-10">"{t.text}"</p>
+              <div>
+                <p className="font-bold text-[#050505] text-sm md:text-base">{t.name}</p>
+                <p className="text-[#050505]/50 text-xs md:text-sm font-medium tracking-wide">{t.role}</p>
+              </div>
+            </GlassPanel>
+          </motion.div>
         ))}
       </div>
     </div>
@@ -1157,30 +1211,38 @@ const FAQSection = () => {
           {FAQS.map((faq, index) => {
             const isOpen = openIndex === index;
             return (
-              <GlassPanel key={index} theme="light" className="overflow-hidden" hoverEffect={false}>
-                <button
-                  onClick={() => setOpenIndex(isOpen ? null : index)}
-                  className="w-full text-left p-5 md:p-8 flex justify-between items-center font-bold text-sm md:text-lg text-[#050505] hover:text-[#429900] transition-colors gap-4 min-h-[56px]"
-                >
-                  <span>{faq.q}</span>
-                  <div className={`shrink-0 p-1.5 md:p-2 rounded-full border border-black/10 transition-transform duration-500 ${isOpen ? 'rotate-180 bg-[#8AFF00] border-[#8AFF00]' : ''}`}>
-                    <ChevronDown className="w-4 h-4 md:w-5 md:h-5" />
-                  </div>
-                </button>
-                <AnimatePresence>
-                  {isOpen && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: 'auto', opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.35 }}
-                      className="px-5 md:px-8 pb-5 md:pb-8 text-[#050505]/70 text-sm md:text-base border-t border-black/5 pt-4 leading-relaxed"
-                    >
-                      {faq.a}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </GlassPanel>
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-50px' }}
+                transition={{ duration: 0.5, delay: index * 0.1, ease: 'easeOut' }}
+              >
+                <GlassPanel theme="light" className="overflow-hidden" hoverEffect={false}>
+                  <button
+                    onClick={() => setOpenIndex(isOpen ? null : index)}
+                    className="w-full text-left p-5 md:p-8 flex justify-between items-center font-bold text-sm md:text-lg text-[#050505] hover:text-[#429900] transition-colors gap-4 min-h-[56px]"
+                  >
+                    <span>{faq.q}</span>
+                    <div className={`shrink-0 p-1.5 md:p-2 rounded-full border border-black/10 transition-transform duration-500 ${isOpen ? 'rotate-180 bg-[#8AFF00] border-[#8AFF00]' : ''}`}>
+                      <ChevronDown className="w-4 h-4 md:w-5 md:h-5" />
+                    </div>
+                  </button>
+                  <AnimatePresence>
+                    {isOpen && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.35 }}
+                        className="px-5 md:px-8 pb-5 md:pb-8 text-[#050505]/70 text-sm md:text-base border-t border-black/5 pt-4 leading-relaxed"
+                      >
+                        {faq.a}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </GlassPanel>
+              </motion.div>
             );
           })}
         </div>
@@ -1192,7 +1254,13 @@ const FAQSection = () => {
 // --- 11. CONTACT ---
 const ContactSection = () => (
   <section id="contacto" className="py-16 md:py-32 px-4 md:px-6 bg-white relative z-10 overflow-hidden border-t border-black/5">
-    <div className="max-w-4xl mx-auto text-center relative">
+    <motion.div
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-100px' }}
+      transition={{ duration: 0.8, ease: 'easeOut' }}
+      className="max-w-4xl mx-auto text-center relative"
+    >
       <SectionLabel text="Inicia tu Proyecto" />
       <div className="absolute inset-0 bg-[#8AFF00]/10 blur-[120px] md:blur-[150px] rounded-full z-[-1]" />
       <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold text-[#050505] mb-4 md:mb-6 tracking-tighter">
@@ -1225,7 +1293,7 @@ const ContactSection = () => (
           Agendar Reunión Inicial
         </button>
       </form>
-    </div>
+    </motion.div>
   </section>
 );
 
