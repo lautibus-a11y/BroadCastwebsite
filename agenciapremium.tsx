@@ -239,12 +239,17 @@ const ClientsSection = () => (
   <section className="py-8 bg-white border-y-4 border-[#8AFF00] relative z-20 overflow-hidden shadow-[0_0_50px_rgba(138,255,0,0.15)]">
     <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-white to-transparent z-20" />
     <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-white to-transparent z-20" />
-    <motion.div className="flex whitespace-nowrap" animate={{ x: ["0%", "-50%"] }} transition={{ ease: "linear", duration: 25, repeat: Infinity }}>
+    <motion.div
+      className="flex whitespace-nowrap"
+      animate={{ x: ["0%", "-50%"] }}
+      transition={{ ease: "linear", duration: 15, repeat: Infinity }}
+      style={{ willChange: 'transform' }}
+    >
       {[...Array(2)].map((_, i) => (
         <div key={i} className="flex items-center gap-12 px-6">
-          {['APPLE', 'TESLA', 'NIKE', 'SPOTIFY', 'SQUARESPACE', 'VERCEL', 'ROBLOX'].map((client, idx) => (
+          {['Diseño web', 'Presencia Online', 'aplicaciones web', 'software personalizado', 'soluciones digitales'].map((service, idx) => (
             <React.Fragment key={idx}>
-              <span className="text-[#050505] text-2xl font-black tracking-widest uppercase">{client}</span>
+              <span className="text-[#050505] text-2xl font-black tracking-widest uppercase">{service}</span>
               {/* Estrella Verde Separadora */}
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-[#8AFF00]">
                 <path d="M12 2L14.4 9.6H22L15.8 14.4L18.2 22L12 17.2L5.8 22L8.2 14.4L2 9.6H9.6L12 2Z" fill="currentColor"/>

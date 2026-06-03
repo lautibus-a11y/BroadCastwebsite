@@ -414,13 +414,14 @@ const ClientsSection = () => (
     <motion.div
       className="flex whitespace-nowrap"
       animate={{ x: ['0%', '-50%'] }}
-      transition={{ ease: 'linear', duration: 22, repeat: Infinity }}
+      transition={{ ease: 'linear', duration: 15, repeat: Infinity }}
+      style={{ willChange: 'transform' }}
     >
       {[...Array(2)].map((_, i) => (
         <div key={i} className="flex items-center gap-8 md:gap-12 px-4 md:px-6">
-          {['APPLE', 'TESLA', 'NIKE', 'SPOTIFY', 'SQUARESPACE', 'VERCEL', 'ROBLOX'].map((client, idx) => (
+          {['Diseño web', 'Presencia Online', 'aplicaciones web', 'software personalizado', 'soluciones digitales'].map((service, idx) => (
             <React.Fragment key={idx}>
-              <span className="text-[#050505] text-lg md:text-2xl font-black tracking-widest uppercase">{client}</span>
+              <span className="text-[#050505] text-lg md:text-2xl font-black tracking-widest uppercase">{service}</span>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-[#8AFF00] shrink-0">
                 <path d="M12 2L14.4 9.6H22L15.8 14.4L18.2 22L12 17.2L5.8 22L8.2 14.4L2 9.6H9.6L12 2Z" fill="currentColor" />
               </svg>
@@ -669,7 +670,7 @@ const AnimatedPieChart = ({ value, label, sublabel, delay = 0 }: {
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.6, delay }}
+      transition={{ duration: 0.6, delay: delay * 0.5 }}
       className="flex flex-col items-center gap-4 md:gap-5"
     >
       {/* SVG donut chart */}
@@ -693,21 +694,20 @@ const AnimatedPieChart = ({ value, label, sublabel, delay = 0 }: {
             initial={{ strokeDashoffset: circumference }}
             whileInView={{ strokeDashoffset: targetOffset }}
             viewport={{ once: true }}
-            transition={{ duration: 2, ease: [0.16, 1, 0.3, 1], delay: delay + 0.2 }}
-            style={{ filter: 'drop-shadow(0 0 5px rgba(138,255,0,0.7))' }}
+            transition={{ duration: 1.2, ease: [0.25, 1, 0.5, 1], delay: delay * 0.5 }}
           />
-          {/* Outer glow ring */}
+          {/* Outer glow ring (vector glow) */}
           <motion.circle
             cx="50" cy="50" r={radius}
             fill="none"
             stroke="#8AFF00"
-            strokeWidth={1}
+            strokeWidth={3}
             strokeLinecap="round"
             strokeDasharray={circumference}
             initial={{ strokeDashoffset: circumference, opacity: 0 }}
-            whileInView={{ strokeDashoffset: targetOffset, opacity: 0.25 }}
+            whileInView={{ strokeDashoffset: targetOffset, opacity: 0.35 }}
             viewport={{ once: true }}
-            transition={{ duration: 2, ease: [0.16, 1, 0.3, 1], delay: delay + 0.2 }}
+            transition={{ duration: 1.2, ease: [0.25, 1, 0.5, 1], delay: delay * 0.5 }}
           />
         </svg>
         {/* Centered percentage */}
@@ -717,7 +717,7 @@ const AnimatedPieChart = ({ value, label, sublabel, delay = 0 }: {
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.4, delay: delay + 1 }}
+            transition={{ duration: 0.4, delay: delay * 0.5 + 0.5 }}
           >
             {value}%
           </motion.span>
@@ -1130,11 +1130,12 @@ const AboutSection = () => {
 
 // --- 8. TECH STACK MARQUEE ---
 const TechStackSection = () => (
-  <section className="py-8 md:py-12 bg-[#050505] border-y border-white/5 relative z-10 overflow-hidden">
+  <section className="py-12 bg-[#050505] border-y border-white/5 relative z-10 overflow-hidden">
     <motion.div
       className="flex whitespace-nowrap"
-      animate={{ x: ['0%', '-50%'] }}
-      transition={{ ease: 'linear', duration: 25, repeat: Infinity }}
+      animate={{ x: ["0%", "-50%"] }}
+      transition={{ ease: "linear", duration: 25, repeat: Infinity }}
+      style={{ willChange: 'transform' }}
     >
       {[...TECH_STACK, ...TECH_STACK].map((tech, index) => (
         <span
