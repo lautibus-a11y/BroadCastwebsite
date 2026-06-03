@@ -789,7 +789,7 @@ const TeamSliderSection = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       paginate(1);
-    }, 5500);
+    }, 4000);
     return () => clearTimeout(timer);
   }, [current, paginate]);
 
@@ -823,7 +823,7 @@ const TeamSliderSection = () => {
           onTouchEnd={handleDragEnd}
           style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
         >
-          <AnimatePresence mode="wait" custom={direction}>
+          <AnimatePresence mode="popLayout" custom={direction}>
             <motion.div
               key={current}
               custom={direction}
@@ -831,7 +831,7 @@ const TeamSliderSection = () => {
               initial="enter"
               animate="center"
               exit="exit"
-              transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.45, ease: [0.25, 1, 0.5, 1] }}
               className="grid grid-cols-1 lg:grid-cols-2 min-h-[400px] lg:min-h-[500px]"
             >
               {/* Photo side - hidden on mobile, block on desktop */}
