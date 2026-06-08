@@ -175,9 +175,14 @@ const Navbar = () => {
             </a>
           ))}
         </div>
-        <button className="px-6 py-2 rounded-full bg-[#8AFF00] text-[#050505] text-sm font-semibold hover:shadow-[0_0_20px_rgba(138,255,0,0.3)] transition-all">
+        <a 
+          href="https://wa.me/5491172023171?text=Hola,%20me%20interesa%20iniciar%20un%20proyecto%20con%20BroadcastWeb."
+          target="_blank"
+          rel="noopener noreferrer"
+          className="px-6 py-2 rounded-full bg-[#8AFF00] text-[#050505] text-sm font-semibold hover:shadow-[0_0_20px_rgba(138,255,0,0.3)] transition-all text-center"
+        >
           Iniciar Proyecto
-        </button>
+        </a>
       </GlassPanel>
     </motion.nav>
   );
@@ -542,29 +547,63 @@ const FAQSection = () => {
 };
 
 // --- 11. CONTACT SECTION ---
-const ContactSection = () => (
-  <section className="py-32 px-6 bg-white relative z-10 overflow-hidden border-t border-black/5">
-    <div className="max-w-4xl mx-auto text-center relative">
-      <SectionLabel text="Inicia tu Proyecto" />
-      <div className="absolute inset-0 bg-[#8AFF00]/10 blur-[150px] rounded-full z-[-1]" />
-      
-      <h2 className="text-5xl md:text-7xl font-bold text-[#050505] mb-6 tracking-tighter">
-        Comienza tu <br/><span className="text-[#429900] italic">transformación.</span>
-      </h2>
-      <p className="text-xl text-[#050505]/60 mb-12 max-w-2xl mx-auto">Estamos listos para construir el próximo gran éxito digital juntos. Agenda una llamada de descubrimiento.</p>
+const ContactSection = () => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
 
-      <form className="max-w-lg mx-auto flex flex-col gap-4 mb-16 text-left">
-        <input type="text" placeholder="Tu Nombre" className="w-full p-5 rounded-2xl bg-[#F5F5F7] border border-black/5 focus:outline-none focus:border-[#8AFF00] focus:ring-4 focus:ring-[#8AFF00]/20 transition-all text-[#050505] font-medium" />
-        <input type="email" placeholder="Email Profesional" className="w-full p-5 rounded-2xl bg-[#F5F5F7] border border-black/5 focus:outline-none focus:border-[#8AFF00] focus:ring-4 focus:ring-[#8AFF00]/20 transition-all text-[#050505] font-medium" />
-        <textarea placeholder="Cuéntanos brevemente sobre tu proyecto..." rows="4" className="w-full p-5 rounded-2xl bg-[#F5F5F7] border border-black/5 focus:outline-none focus:border-[#8AFF00] focus:ring-4 focus:ring-[#8AFF00]/20 transition-all text-[#050505] font-medium resize-none"></textarea>
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const text = `Hola BroadcastWeb! Mi nombre es ${name}. Mi email es ${email}. Proyecto: ${message}`;
+    const url = `https://wa.me/5491172023171?text=${encodeURIComponent(text)}`;
+    window.open(url, '_blank');
+  };
+
+  return (
+    <section className="py-32 px-6 bg-white relative z-10 overflow-hidden border-t border-black/5">
+      <div className="max-w-4xl mx-auto text-center relative">
+        <SectionLabel text="Inicia tu Proyecto" />
+        <div className="absolute inset-0 bg-[#8AFF00]/10 blur-[150px] rounded-full z-[-1]" />
         
-        <button type="button" className="w-full py-5 mt-4 rounded-2xl bg-[#050505] text-[#F5F3EE] text-lg font-bold hover:bg-[#8AFF00] hover:text-[#050505] hover:shadow-[0_0_30px_rgba(138,255,0,0.4)] transition-all duration-300">
-          Agendar Reunión Inicial
-        </button>
-      </form>
-    </div>
-  </section>
-);
+        <h2 className="text-5xl md:text-7xl font-bold text-[#050505] mb-6 tracking-tighter">
+          Comienza tu <br/><span className="text-[#429900] italic">transformación.</span>
+        </h2>
+        <p className="text-xl text-[#050505]/60 mb-12 max-w-2xl mx-auto">Estamos listos para construir el próximo gran éxito digital juntos. Agenda una llamada de descubrimiento.</p>
+
+        <form onSubmit={handleSubmit} className="max-w-lg mx-auto flex flex-col gap-4 mb-16 text-left">
+          <input
+            type="text"
+            placeholder="Tu Nombre"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+            className="w-full p-5 rounded-2xl bg-[#F5F5F7] border border-black/5 focus:outline-none focus:border-[#8AFF00] focus:ring-4 focus:ring-[#8AFF00]/20 transition-all text-[#050505] font-medium"
+          />
+          <input
+            type="email"
+            placeholder="Email Profesional"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            className="w-full p-5 rounded-2xl bg-[#F5F5F7] border border-black/5 focus:outline-none focus:border-[#8AFF00] focus:ring-4 focus:ring-[#8AFF00]/20 transition-all text-[#050505] font-medium"
+          />
+          <textarea
+            placeholder="Cuéntanos brevemente sobre tu proyecto..."
+            rows={4}
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            required
+            className="w-full p-5 rounded-2xl bg-[#F5F5F7] border border-black/5 focus:outline-none focus:border-[#8AFF00] focus:ring-4 focus:ring-[#8AFF00]/20 transition-all text-[#050505] font-medium resize-none"
+          />
+          
+          <button type="submit" className="w-full py-5 mt-4 rounded-2xl bg-[#050505] text-[#F5F3EE] text-lg font-bold hover:bg-[#8AFF00] hover:text-[#050505] hover:shadow-[0_0_30px_rgba(138,255,0,0.4)] transition-all duration-300">
+            Agendar Reunión Inicial
+          </button>
+        </form>
+      </div>
+    </section>
+  );
+};
 
 // --- 12. FOOTER ---
 const Footer = () => (
