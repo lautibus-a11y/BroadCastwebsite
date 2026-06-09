@@ -1444,51 +1444,7 @@ const Footer = () => (
   </footer>
 );
 
-// --- SMOOTH SCROLL HOOK ---
-const useSmoothScroll = () => {
-  useEffect(() => {
-    let currentY = window.scrollY;
-    let targetY = window.scrollY;
-    let rafId: number;
-    let isScrolling = false;
-    const ease = 0.082; // smoothing factor — lower = more inertia
 
-    const onWheel = (e: WheelEvent) => {
-      // Only apply on non-touch devices
-      if (e.deltaMode === 0) {
-        e.preventDefault();
-        targetY = Math.max(0, Math.min(document.body.scrollHeight - window.innerHeight, targetY + e.deltaY));
-        if (!isScrolling) {
-          isScrolling = true;
-          raf();
-        }
-      }
-    };
-
-    const raf = () => {
-      const diff = targetY - currentY;
-      if (Math.abs(diff) < 0.5) {
-        currentY = targetY;
-        isScrolling = false;
-        return;
-      }
-      currentY += diff * ease;
-      window.scrollTo(0, currentY);
-      rafId = requestAnimationFrame(raf);
-    };
-
-    // Only enable on desktop
-    const isMobile = /Mobi|Android/i.test(navigator.userAgent);
-    if (!isMobile) {
-      window.addEventListener('wheel', onWheel, { passive: false });
-    }
-
-    return () => {
-      window.removeEventListener('wheel', onWheel);
-      cancelAnimationFrame(rafId);
-    };
-  }, []);
-};
 
 // --- CINEMATIC REVEAL LOADER ---
 const CinematicLoader = ({ onComplete }: { onComplete: () => void }) => {
@@ -1726,7 +1682,6 @@ const CinematicLoader = ({ onComplete }: { onComplete: () => void }) => {
 
 // --- MAIN APP ---
 export default function App() {
-  useSmoothScroll();
   const [loading, setLoading] = useState(true);
 
   return (
