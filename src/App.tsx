@@ -1647,7 +1647,7 @@ const CinematicLoader = ({ onComplete }: { onComplete: () => void }) => {
           </h2>
           
           <span className="text-[9px] md:text-[10px] tracking-[0.4em] uppercase text-[#F5F3EE]/40 font-medium mb-12">
-            Creative Digital Studio
+            Estudio creativo digital
           </span>
 
           {/* Progress number counter */}
