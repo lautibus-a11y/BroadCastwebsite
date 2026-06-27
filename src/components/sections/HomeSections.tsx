@@ -28,41 +28,38 @@ export const HeroSection = () => (
 
       {/* Main Title (Bug Fixed: Re-added missing text from previous designs) */}
       <motion.h1 
-        className="text-5xl md:text-7xl lg:text-[7rem] font-bold tracking-tighter leading-[1.1] text-[#F5F3EE] mb-6"
+        className="text-5xl md:text-7xl lg:text-[6rem] font-bold tracking-tighter leading-[1.1] text-[#F5F3EE] mb-12 overflow-visible"
         initial={{ y: 50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 1, delay: 0.2 }}
       >
         Elevamos tu marca a la <br />
-        <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#F5F3EE] via-[#8AFF00] to-[#5EFF00] italic pr-4">
+        <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#F5F3EE] via-[#8AFF00] to-[#5EFF00] italic pr-10">
           nueva realidad digital
         </span>
       </motion.h1>
 
-      <motion.p 
-        className="max-w-2xl text-lg md:text-xl text-[#F5F3EE]/60 font-light mb-12 leading-relaxed"
-        initial={{ y: 30, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 1, delay: 0.4 }}
-      >
-        Diseñamos y desarrollamos plataformas web premium que combinan estética cinematográfica con rendimiento técnico impecable.
-      </motion.p>
+
 
       {/* CTAs */}
       <motion.div
         initial={{ y: 30, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.6 }}
+        transition={{ delay: 0.4 }}
         className="flex flex-col sm:flex-row gap-3 md:gap-4 w-full sm:w-auto"
       >
-        <button 
-          onClick={() => scrollToSection('proyectos')}
+        <a
+          href="#proyectos"
+          onClick={(e) => { e.preventDefault(); scrollToSection('proyectos'); }}
           className="px-6 py-3.5 md:px-8 md:py-4 rounded-xl bg-[#8AFF00] text-[#050505] font-semibold tracking-wide hover:shadow-[0_0_30px_rgba(138,255,0,0.4)] transition-all flex items-center justify-center gap-2 group text-sm md:text-base"
         >
           Ver Proyectos <ArrowUpRight className="w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-        </button>
-        <button 
-          onClick={() => scrollToSection('servicios')}
+        </a>
+        <a
+          href="#servicios"
+          onClick={(e) => { e.preventDefault(); scrollToSection('servicios'); }}
           className="px-6 py-3.5 md:px-8 md:py-4 rounded-xl bg-[#151615]/50 backdrop-blur-md border border-white/10 text-[#F5F3EE] font-semibold hover:bg-white/10 transition-all text-sm md:text-base"
         >
           Servicios
-        </button>
+        </a>
       </motion.div>
     </div>
   </section>
@@ -204,8 +201,10 @@ export const ProjectsSection = () => {
                     <div className="absolute inset-0 bg-[#8AFF00]/20 mix-blend-overlay z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
                     <img
                       src={project.image}
-                      alt={project.title}
+                      alt={`${project.title} — ${project.category} | BroadcastWeb`}
                       loading="lazy"
+                      width="1280"
+                      height="720"
                       className="w-full h-full object-cover scale-[1.01] group-hover:scale-105 transition-transform duration-[1.5s]"
                     />
                     <div className="absolute bottom-0 left-0 w-full p-4 md:p-8 bg-gradient-to-t from-black/95 via-black/60 to-transparent z-20">

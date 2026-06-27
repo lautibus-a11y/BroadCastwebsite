@@ -118,8 +118,10 @@ export const AboutSection = () => {
             >
               <img
                 src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2670&auto=format&fit=crop"
-                alt="Agency Team"
+                alt="Equipo de trabajo en BroadcastWeb, agencia de diseño y desarrollo web en Argentina"
                 loading="lazy"
+                width="800"
+                height="500"
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-[#8AFF00]/10 mix-blend-overlay" />
@@ -187,9 +189,9 @@ export const TeamSliderSection = () => {
           viewport={{ once: true }}
           className="flex justify-center mb-10 md:mb-14"
         >
-          <div className="bg-white border-[3px] border-[#050505] text-[#050505] px-5 py-2 md:px-8 md:py-3 rounded-full font-bold text-xs md:text-sm tracking-[0.2em] uppercase shadow-[4px_4px_0px_#8AFF00] md:shadow-[6px_6px_0px_#8AFF00] transform -rotate-1 hover:rotate-0 transition-all duration-300">
+          <h2 className="bg-white border-[3px] border-[#050505] text-[#050505] px-5 py-2 md:px-8 md:py-3 rounded-full font-bold text-xs md:text-sm tracking-[0.2em] uppercase shadow-[4px_4px_0px_#8AFF00] md:shadow-[6px_6px_0px_#8AFF00] transform -rotate-1 hover:rotate-0 transition-all duration-300">
             Nuestro Equipo
-          </div>
+          </h2>
         </motion.div>
 
         <div
@@ -214,8 +216,10 @@ export const TeamSliderSection = () => {
               <div className="hidden lg:block relative overflow-hidden lg:rounded-l-[2rem] min-h-[380px] lg:min-h-0">
                 <motion.img
                   src={member.image}
-                  alt={member.name}
+                  alt={`${member.name}, ${member.role} en BroadcastWeb`}
                   loading="lazy"
+                  width="600"
+                  height="600"
                   className="w-full h-full object-cover object-top"
                   initial={{ scale: 1.08 }}
                   animate={{ scale: 1 }}
@@ -249,7 +253,9 @@ export const TeamSliderSection = () => {
                     <div className="flex items-center gap-4 lg:hidden mb-4">
                       <img
                         src={member.image}
-                        alt={member.name}
+                        alt={`${member.name}, ${member.role}`}
+                        width="56"
+                        height="56"
                         className="w-14 h-14 rounded-full object-cover border-2 border-[#8AFF00]/80 shadow-[0_0_12px_rgba(138,255,0,0.25)]"
                       />
                       <div className="flex flex-col">

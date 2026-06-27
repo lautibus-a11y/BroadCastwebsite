@@ -22,6 +22,7 @@ export const Navbar = () => {
   return (
     <>
       <motion.nav
+        aria-label="Navegación principal"
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 1, delay: 0.4 }}
@@ -32,19 +33,20 @@ export const Navbar = () => {
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             className="text-[#F5F3EE] font-bold text-lg md:text-xl tracking-tighter flex items-center gap-3 cursor-pointer select-none"
           >
-            <img src="/logo.png" alt="BroadcastWeb Logo" className="w-9 h-9 md:w-10 md:h-10 object-contain rounded-lg" />
+            <img src="/logo.png" alt="BroadcastWeb Logo" width="40" height="40" className="w-9 h-9 md:w-10 md:h-10 object-contain rounded-lg" />
             BroadcastWeb
           </div>
 
           <div className="hidden md:flex gap-8">
             {NAV_LINKS.map((link, i) => (
-              <button
+              <a
                 key={i}
-                onClick={() => handleNavClick(link)}
+                href={`#${link.toLowerCase().replace(/ /g, '-')}`}
+                onClick={(e) => { e.preventDefault(); handleNavClick(link); }}
                 className="text-[#F5F3EE]/60 hover:text-[#8AFF00] transition-colors text-sm font-medium tracking-wide"
               >
                 {link}
-              </button>
+              </a>
             ))}
           </div>
 
@@ -78,16 +80,17 @@ export const Navbar = () => {
             className="fixed inset-0 z-30 bg-[#050505]/98 backdrop-blur-xl flex flex-col items-center justify-center gap-8 md:hidden"
           >
             {NAV_LINKS.map((link, i) => (
-              <motion.button
+              <motion.a
                 key={i}
+                href={`#${link.toLowerCase().replace(/ /g, '-')}`}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.08 }}
-                onClick={() => handleNavClick(link)}
+                onClick={(e) => { e.preventDefault(); handleNavClick(link); }}
                 className="text-3xl font-bold text-[#F5F3EE]/80 hover:text-[#8AFF00] transition-colors tracking-tight"
               >
                 {link}
-              </motion.button>
+              </motion.a>
             ))}
             <motion.a
               initial={{ opacity: 0, y: 20 }}
@@ -121,7 +124,7 @@ export const Footer = () => (
         </p>
       </div>
       <div>
-        <h4 className="font-bold mb-4 md:mb-6 uppercase tracking-widest text-xs md:text-sm text-[#8AFF00]">Navegación</h4>
+        <h3 className="font-bold mb-4 md:mb-6 uppercase tracking-widest text-xs md:text-sm text-[#8AFF00]">Navegación</h3>
         <ul className="space-y-2 md:space-y-3 text-[#F5F3EE]/60 font-medium text-sm md:text-base">
           {['Servicios', 'Proyectos', 'Agencia', 'Contacto'].map((l) => (
             <li key={l}>
@@ -137,7 +140,7 @@ export const Footer = () => (
         </ul>
       </div>
       <div>
-        <h4 className="font-bold mb-4 md:mb-6 uppercase tracking-widest text-xs md:text-sm text-[#8AFF00]">Redes</h4>
+        <h3 className="font-bold mb-4 md:mb-6 uppercase tracking-widest text-xs md:text-sm text-[#8AFF00]">Redes</h3>
         <div className="flex gap-3 md:gap-4 flex-wrap">
           {[Twitter, Instagram, Linkedin, Dribbble].map((Icon, i) => (
             <a

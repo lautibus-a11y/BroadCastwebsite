@@ -138,10 +138,10 @@ export const ContactSection = () => {
       >
         <SectionLabel text="Inicia tu Proyecto" />
         <div className="absolute inset-0 bg-[#8AFF00]/10 blur-[120px] md:blur-[150px] rounded-full z-[-1]" />
-        <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold text-[#050505] mb-4 md:mb-6 tracking-tighter">
+        <h3 className="text-4xl md:text-6xl lg:text-7xl font-bold text-[#050505] mb-4 md:mb-6 tracking-tighter">
           Comienza tu <br />
           <span className="text-[#429900] italic">transformación.</span>
-        </h2>
+        </h3>
         <p className="text-base md:text-xl text-[#050505]/60 mb-8 md:mb-12 max-w-2xl mx-auto leading-relaxed">
           Estamos listos para construir el próximo gran éxito digital juntos. Agenda una llamada de descubrimiento.
         </p>
