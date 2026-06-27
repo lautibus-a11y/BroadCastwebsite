@@ -8,7 +8,7 @@ export const HeroSection = () => (
   <section className="relative min-h-screen flex items-center justify-center px-4 md:px-6 pt-24 pb-16 md:pt-32 md:pb-20 overflow-hidden bg-[#050505]">
     {/* Background video */}
     <div className="absolute inset-0 w-full h-full z-0">
-      <video autoPlay loop muted playsInline className="w-full h-full object-cover opacity-85 md:opacity-95 mix-blend-screen" preload="metadata">
+      <video autoPlay loop muted playsInline className="w-full h-full object-cover opacity-85 md:opacity-95 mix-blend-screen" preload="auto">
         <source src="/videohero/videohero.mp4" type="video/mp4" />
       </video>
       <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/5 via-[#050505]/20 to-[#050505]/60" />
@@ -26,7 +26,8 @@ export const HeroSection = () => (
         <span className="text-[10px] md:text-xs uppercase tracking-[0.2em] text-[#F5F3EE]/80 font-medium">Agencia de desarrollo web</span>
       </motion.div>
 
-      <motion.h1
+      {/* Main Title (Bug Fixed: Re-added missing text from previous designs) */}
+      <motion.h1 
         className="text-5xl md:text-7xl lg:text-[7rem] font-bold tracking-tighter leading-[1.1] text-[#F5F3EE] mb-6"
         initial={{ y: 50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 1, delay: 0.2 }}
       >

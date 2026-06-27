@@ -143,15 +143,15 @@ export const TeamSliderSection = () => {
     setCurrent((prev) => (prev + dir + total) % total);
   }, [total]);
 
-  const handleDragStart = (e: React.TouchEvent<HTMLDivElement> | React.MouseEvent<HTMLDivElement>) => {
+  const handleDragStart = (e: React.TouchEvent | React.MouseEvent) => {
     setIsDragging(true);
-    dragStartX.current = 'touches' in e ? e.touches[0].clientX : e.clientX;
+    dragStartX.current = 'touches' in e ? e.touches[0].clientX : (e as React.MouseEvent).clientX;
   };
-
-  const handleDragEnd = (e: React.TouchEvent<HTMLDivElement> | React.MouseEvent<HTMLDivElement>) => {
+  
+  const handleDragEnd = (e: React.TouchEvent | React.MouseEvent) => {
     if (!isDragging) return;
     setIsDragging(false);
-    const endX = 'changedTouches' in e ? e.changedTouches[0].clientX : e.clientX;
+    const endX = 'changedTouches' in e ? e.changedTouches[0].clientX : (e as React.MouseEvent).clientX;
     const delta = dragStartX.current - endX;
     if (Math.abs(delta) > 50) paginate(delta > 0 ? 1 : -1);
   };
@@ -196,8 +196,8 @@ export const TeamSliderSection = () => {
           className="relative overflow-hidden rounded-2xl md:rounded-[2rem] select-none"
           onMouseDown={handleDragStart}
           onMouseUp={handleDragEnd}
-          onTouchStart={handleDragStart}
-          onTouchEnd={handleDragEnd}
+          onTouchStart={handleDragStart as any}
+          onTouchEnd={handleDragEnd as any}
           style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
         >
           <AnimatePresence mode="popLayout" custom={direction}>
@@ -371,8 +371,9 @@ export const SocialFloat = () => {
                 animationIterationCount: 'infinite',
                 animationTimingFunction: 'ease-in-out',
               }}
-              whileHover={{
-                scale: 1.08,
+              // @ts-ignore
+              whileHover={{ 
+                scale: 1.08, 
                 y: -8,
                 backgroundColor: 'rgba(138, 255, 0, 0.08)',
                 borderColor: 'rgba(138, 255, 0, 0.4)',

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Twitter, Instagram, Linkedin, Dribbble } from 'lucide-react';
-import { NAV_LINKS, WA_BASE } from '../../data/data';
+import { NAV_LINKS } from '../../data/data';
 import { scrollToSection } from '../ui';
 
 export const Navbar = () => {
@@ -16,7 +16,7 @@ export const Navbar = () => {
 
   const handleNavClick = (link: string) => {
     setMenuOpen(false);
-    scrollToSection(link.toLowerCase().replace(/ /g, '-'));
+    scrollToSection(link.toLowerCase().replace(' ', '-'));
   };
 
   return (
@@ -50,7 +50,7 @@ export const Navbar = () => {
 
           <div className="flex items-center gap-3">
             <a 
-              href={`${WA_BASE}${encodeURIComponent('Hola, me interesa iniciar un proyecto con BroadcastWeb.')}`}
+              href="https://wa.me/5491172023171?text=Hola,%20me%20interesa%20iniciar%20un%20proyecto%20con%20BroadcastWeb."
               target="_blank"
               rel="noopener noreferrer"
               className="hidden md:block px-5 py-2 rounded-xl bg-[#8AFF00] text-[#050505] text-sm font-semibold hover:shadow-[0_0_20px_rgba(138,255,0,0.3)] transition-all text-center"
@@ -93,7 +93,7 @@ export const Navbar = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.36 }}
-              href={`${WA_BASE}${encodeURIComponent('Hola, me interesa iniciar un proyecto con BroadcastWeb.')}`}
+              href="https://wa.me/5491172023171?text=Hola,%20me%20interesa%20iniciar%20un%20proyecto%20con%20BroadcastWeb."
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => setMenuOpen(false)}
@@ -139,17 +139,10 @@ export const Footer = () => (
       <div>
         <h4 className="font-bold mb-4 md:mb-6 uppercase tracking-widest text-xs md:text-sm text-[#8AFF00]">Redes</h4>
         <div className="flex gap-3 md:gap-4 flex-wrap">
-          {[
-            { href: 'https://twitter.com/broadcastweb', Icon: Twitter },
-            { href: 'https://instagram.com/broadcastweb', Icon: Instagram },
-            { href: 'https://linkedin.com/company/broadcastweb', Icon: Linkedin },
-            { href: 'https://dribbble.com/broadcastweb', Icon: Dribbble },
-          ].map(({ href, Icon }, i) => (
+          {[Twitter, Instagram, Linkedin, Dribbble].map((Icon, i) => (
             <a
               key={i}
-              href={href}
-              target="_blank"
-              rel="noopener noreferrer"
+              href="#"
               className="w-10 h-10 md:w-12 md:h-12 rounded-xl md:rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-[#8AFF00] hover:text-[#050505] hover:border-[#8AFF00] transition-all duration-300"
             >
               <Icon className="w-4 h-4 md:w-5 md:h-5" />

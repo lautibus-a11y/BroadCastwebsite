@@ -1,4 +1,5 @@
 
+import React from 'react';
 
 export const NAV_LINKS = ['Servicios', 'Proyectos', 'Agencia', 'FAQ'];
 
