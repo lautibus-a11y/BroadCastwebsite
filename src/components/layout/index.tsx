@@ -28,7 +28,11 @@ export const Navbar = () => {
         transition={{ duration: 1, delay: 0.4 }}
         className={`fixed top-0 left-0 w-full z-40 transition-all duration-500 px-4 md:px-6 ${scrolled ? 'pt-3 md:pt-4' : 'pt-4 md:pt-8'}`}
       >
-        <div className="flex items-center justify-between px-5 py-3 md:px-8 md:py-4 w-full max-w-5xl mx-auto rounded-2xl md:rounded-full bg-[#050505]/90 border border-white/[0.08] backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
+        <div className={`flex items-center justify-between px-5 py-3 md:px-8 md:py-4 w-full max-w-5xl mx-auto rounded-2xl md:rounded-full border backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.25)] transition-all duration-500 ${
+          scrolled
+            ? 'bg-white/5 border-white/15 shadow-[0_8px_40px_rgba(0,0,0,0.35)]'
+            : 'bg-white/[0.03] border-white/8'
+        }`}>
           <div 
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             className="text-[#F5F3EE] font-bold text-lg md:text-xl tracking-tighter flex items-center gap-3 cursor-pointer select-none"
