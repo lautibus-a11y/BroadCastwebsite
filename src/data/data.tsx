@@ -25,12 +25,14 @@ export const SvgWebDev = () => (
   </svg>
 );
 
-export const SvgUIUX = () => (
+export const SvgChatbots = () => (
   <svg width="40" height="40" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect x="12" y="4" width="24" height="40" rx="6" stroke="#8AFF00" strokeWidth="2"/>
-    <path d="M20 40H28" stroke="#8AFF00" strokeWidth="2" strokeLinecap="round"/>
-    <circle cx="24" cy="24" r="6" stroke="white" strokeWidth="2" strokeOpacity="0.7"/>
-    <circle cx="24" cy="24" r="2" fill="white" fillOpacity="0.7"/>
+    <rect x="8" y="12" width="32" height="24" rx="4" stroke="#8AFF00" strokeWidth="2"/>
+    <path d="M24 12V4" stroke="#8AFF00" strokeWidth="2" strokeLinecap="round"/>
+    <circle cx="24" cy="4" r="2" fill="#8AFF00"/>
+    <circle cx="16" cy="22" r="3" fill="white" fillOpacity="0.7"/>
+    <circle cx="32" cy="22" r="3" fill="white" fillOpacity="0.7"/>
+    <path d="M16 30H32" stroke="white" strokeWidth="2" strokeOpacity="0.7" strokeLinecap="round"/>
   </svg>
 );
 
@@ -53,11 +55,11 @@ export const SvgMotion = () => (
 export const WA_BASE = 'https://wa.me/5491172023171?text=';
 
 export const SERVICES = [
-  { id: 1, title: 'Diseño Web',       icon: SvgWebDesign, colSpan: 'md:col-span-2', desc: 'Interfaces digitales inmersivas y arquitecturas visuales de alto impacto.',   whatsappUrl: WA_BASE + encodeURIComponent('Hola, me interesa el servicio de Diseño Web.') },
-  { id: 2, title: 'Desarrollo Web',   icon: SvgWebDev,    colSpan: 'md:col-span-1', desc: 'Sistemas escalables, rápidos y seguros.',                                     whatsappUrl: WA_BASE + encodeURIComponent('Hola, me interesa el servicio de Desarrollo Web.') },
-  { id: 3, title: 'UI/UX Design',     icon: SvgUIUX,      colSpan: 'md:col-span-1', desc: 'Flujos intuitivos centrados en la retención del usuario.',                    whatsappUrl: WA_BASE + encodeURIComponent('Hola, me interesa el servicio de UI/UX Design.') },
-  { id: 4, title: 'Branding Digital', icon: SvgBranding,  colSpan: 'md:col-span-1', desc: 'Identidades visuales preparadas para el entorno moderno.',                    whatsappUrl: WA_BASE + encodeURIComponent('Hola, me interesa el servicio de Branding Digital.') },
-  { id: 5, title: 'Motion & 3D',      icon: SvgMotion,    colSpan: 'md:col-span-1', desc: 'Animaciones fluidas y experiencias WebGL interactivas.',                       whatsappUrl: WA_BASE + encodeURIComponent('Hola, me interesa el servicio de Motion & 3D.') },
+  { id: 1, title: 'Diseño y Desarrollo Web',       icon: SvgWebDesign, colSpan: 'md:col-span-2', desc: 'Interfaces digitales inmersivas y arquitecturas visuales de alto impacto.',   whatsappUrl: WA_BASE + encodeURIComponent('Hola, me interesa el servicio de Diseño y Desarrollo Web.') },
+  { id: 2, title: 'Aplicaciones Web',   icon: SvgWebDev,    colSpan: 'md:col-span-1', desc: 'Sistemas escalables, rápidos y seguros.',                                     whatsappUrl: WA_BASE + encodeURIComponent('Hola, me interesa el servicio de Aplicaciones Web.') },
+  { id: 3, title: 'Chatbots',     icon: SvgChatbots,      colSpan: 'md:col-span-1', desc: 'Asistentes virtuales inteligentes 24/7 para automatizar tu atención al cliente y potenciar ventas.',                    whatsappUrl: WA_BASE + encodeURIComponent('Hola, me interesa el servicio de Chatbots.') },
+  { id: 4, title: 'Redes Sociales', icon: SvgBranding,  colSpan: 'md:col-span-1', desc: 'Identidades visuales preparadas para el entorno moderno.',                    whatsappUrl: WA_BASE + encodeURIComponent('Hola, me interesa el servicio de Redes Sociales.') },
+  { id: 5, title: 'Diseños Interactivos',      icon: SvgMotion,    colSpan: 'md:col-span-1', desc: 'Experiencias digitales con las que los usuarios pueden interactuar, como menús digitales, invitaciones interactivas, catálogos y otros elementos dinámicos.',                       whatsappUrl: WA_BASE + encodeURIComponent('Hola, me interesa el servicio de Diseños Interactivos.') },
 ];
 
 export const PROJECTS = [

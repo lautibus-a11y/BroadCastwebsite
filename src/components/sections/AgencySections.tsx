@@ -198,8 +198,8 @@ export const TeamSliderSection = () => {
           className="relative overflow-hidden rounded-2xl md:rounded-[2rem] select-none"
           onMouseDown={handleDragStart}
           onMouseUp={handleDragEnd}
-          onTouchStart={handleDragStart as any}
-          onTouchEnd={handleDragEnd as any}
+          onTouchStart={(e: React.TouchEvent) => handleDragStart(e)}
+          onTouchEnd={(e: React.TouchEvent) => handleDragEnd(e)}
           style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
         >
           <AnimatePresence mode="popLayout" custom={direction}>
@@ -371,13 +371,6 @@ export const SocialFloat = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.12 }}
-              animate={{ y: [0, -6, 0] }}
-              style={{
-                animationDuration: `${4 + i * 0.8}s`,
-                animationIterationCount: 'infinite',
-                animationTimingFunction: 'ease-in-out',
-              }}
-              // @ts-ignore
               whileHover={{ 
                 scale: 1.08, 
                 y: -8,

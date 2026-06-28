@@ -142,10 +142,18 @@ export const Footer = () => (
       <div>
         <h3 className="font-bold mb-4 md:mb-6 uppercase tracking-widest text-xs md:text-sm text-[#8AFF00]">Redes</h3>
         <div className="flex gap-3 md:gap-4 flex-wrap">
-          {[Twitter, Instagram, Linkedin, Dribbble].map((Icon, i) => (
+          {[
+            { icon: Twitter, href: 'https://twitter.com/broadcastweb', label: 'Twitter' },
+            { icon: Instagram, href: 'https://instagram.com/broadcastweb', label: 'Instagram' },
+            { icon: Linkedin, href: 'https://linkedin.com/company/broadcastweb', label: 'LinkedIn' },
+            { icon: Dribbble, href: 'https://dribbble.com/broadcastweb', label: 'Dribbble' },
+          ].map(({ icon: Icon, href, label }) => (
             <a
-              key={i}
-              href="#"
+              key={label}
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={label}
               className="w-10 h-10 md:w-12 md:h-12 rounded-xl md:rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-[#8AFF00] hover:text-[#050505] hover:border-[#8AFF00] transition-all duration-300"
             >
               <Icon className="w-4 h-4 md:w-5 md:h-5" />

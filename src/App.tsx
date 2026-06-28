@@ -4,6 +4,7 @@ import { AnimatePresence } from 'framer-motion';
 import { InteractiveGlow, CinematicLoader } from './components/ui';
 import { Navbar, Footer } from './components/layout';
 import { HeroSection, ClientsSection, ServicesSection, ProjectsSection } from './components/sections/HomeSections';
+import { Chatbot } from './components/chat/Chatbot';
 
 // Lazy load sections below the fold for performance
 const ProcessSection = React.lazy(() => import('./components/sections/AgencySections').then(module => ({ default: module.ProcessSection })));
@@ -66,6 +67,7 @@ export default function App() {
         </main>
 
         <Footer />
+        {!loading && <Chatbot />}
       </div>
     </>
   );
