@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowUpRight, Sparkles, ExternalLink, ChevronDown } from 'lucide-react';
-import { SERVICES, PROJECTS, INITIAL_VISIBLE } from '../../data/data';
+import { SERVICES, PROJECTS, PROJECT_TABS, ProjectTabId, WA_BASE } from '../../data/data';
 import { GlassPanel, SectionLabel, scrollToSection } from '../ui';
 
 export const HeroSection = () => (
@@ -174,77 +174,150 @@ export const ServicesSection = () => (
 );
 
 export const ProjectsSection = () => {
-  const [showAll, setShowAll] = useState(false);
-  const hasMore = PROJECTS.length > INITIAL_VISIBLE;
-  const visibleProjects = showAll ? PROJECTS : PROJECTS.slice(0, INITIAL_VISIBLE);
+  const [activeTab, setActiveTab] = useState<ProjectTabId>('all');
+  const [visibleCount, setVisibleCount] = useState<number>(4);
+
+  // Filter projects by active tab
+  const filteredProjects = React.useMemo(() => {
+    if (activeTab === 'all') return PROJECTS;
+    return PROJECTS.filter((p) => p.tab === activeTab);
+  }, [activeTab]);
+
+  // Reset pagination count when changing tabs
+  const handleTabChange = (tabId: ProjectTabId) => {
+    setActiveTab(tabId);
+    setVisibleCount(4);
+  };
+
+  const visibleProjects = filteredProjects.slice(0, visibleCount);
+  const hasMore = filteredProjects.length > visibleCount;
 
   return (
-    <section id="proyectos" className="py-16 md:py-32 px-4 md:px-6 bg-[#050505] relative z-10">
+    <section id="proyectos" className="py-16 md:py-32 px-3 sm:px-4 md:px-6 bg-[#050505] relative z-10">
       <div className="max-w-6xl mx-auto">
         <SectionLabel text="Obras Destacadas" />
-        <div className="flex flex-col gap-5 md:gap-10">
-          <AnimatePresence initial={false}>
-            {visibleProjects.map((project, index) => (
+
+        {/* Tab Navigation */}
+        <div className="flex justify-center mb-8 md:mb-14">
+          <div className="inline-flex items-center gap-1 sm:gap-2 p-1.5 rounded-full bg-[#121312]/80 border border-white/10 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.5)] max-w-full overflow-x-auto no-scrollbar">
+            {PROJECT_TABS.map((tab) => {
+              const isActive = activeTab === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => handleTabChange(tab.id)}
+                  className={`
+                    px-3.5 py-1.5 sm:px-5 sm:py-2 rounded-full text-xs sm:text-sm font-semibold tracking-wide whitespace-nowrap transition-all duration-300 relative
+                    ${isActive
+                      ? 'bg-[#8AFF00] text-[#050505] font-bold shadow-[0_0_20px_rgba(138,255,0,0.35)] scale-[1.02]'
+                      : 'text-white/70 hover:text-white hover:bg-white/[0.06]'
+                    }
+                  `}
+                >
+                  {tab.label}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* 2-Column Grid (Desktop & Mobile) */}
+        <motion.div layout className="grid grid-cols-2 gap-3 sm:gap-6 md:gap-8">
+          <AnimatePresence mode="popLayout">
+            {visibleProjects.map((project) => (
               <motion.div
                 key={project.id}
-                className="md:sticky md:top-28"
-                style={{ zIndex: index + 1 }}
-                initial={{ opacity: 0, y: 60 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20, scale: 0.98 }}
-                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                layout
+                initial={{ opacity: 0, scale: 0.94, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.94, y: 10 }}
+                transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                className="flex flex-col"
               >
-                <GlassPanel theme="dark" hoverEffect={false} className="p-2.5 md:p-4 group">
-                  <div className="relative aspect-[16/9] w-full overflow-hidden rounded-xl md:rounded-[1.5rem]">
-                    <div className="absolute inset-0 bg-[#8AFF00]/20 mix-blend-overlay z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                <GlassPanel
+                  theme="dark"
+                  hoverEffect={false}
+                  className="p-2 sm:p-3.5 md:p-5 flex flex-col h-full group border border-white/[0.08] hover:border-[#8AFF00]/35 transition-all duration-500 bg-[#121312]/60 hover:bg-[#151615]/90 hover:shadow-[0_10px_30px_rgba(0,0,0,0.6),0_0_25px_rgba(138,255,0,0.08)] rounded-xl sm:rounded-2xl md:rounded-[1.8rem]"
+                >
+                  {/* Image container */}
+                  <div className="relative aspect-[16/10] w-full overflow-hidden rounded-lg sm:rounded-xl md:rounded-[1.2rem] bg-[#080808]">
+                    <div className="absolute inset-0 bg-[#8AFF00]/15 mix-blend-overlay z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#050505]/70 via-transparent to-transparent z-10 pointer-events-none" />
+
                     <img
                       src={project.image}
                       alt={`${project.title} — ${project.category} | BroadcastWeb`}
                       loading="lazy"
-                      width="1280"
-                      height="720"
-                      className="w-full h-full object-cover scale-[1.01] group-hover:scale-105 transition-transform duration-[1.5s]"
+                      width="800"
+                      height="500"
+                      className="w-full h-full object-cover object-top scale-[1.01] group-hover:scale-105 transition-transform duration-700 ease-out"
                     />
-                    <div className="absolute bottom-0 left-0 w-full p-4 md:p-8 bg-gradient-to-t from-black/95 via-black/60 to-transparent z-20">
-                      <span className="text-[#8AFF00] text-[10px] md:text-sm font-bold tracking-widest uppercase mb-1 md:mb-2 block">
-                        {project.category}
+
+                    {/* Category badge */}
+                    <div className="absolute top-1.5 left-1.5 sm:top-2.5 sm:left-2.5 z-20 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full bg-[#050505]/80 border border-white/10 backdrop-blur-md">
+                      <span className="text-[#8AFF00] text-[8px] sm:text-[10px] md:text-xs font-bold tracking-wider uppercase block truncate max-w-[110px] sm:max-w-[180px]">
+                        {project.category.split('/')[0].trim()}
                       </span>
-                      <div className="flex items-end justify-between gap-3">
-                        <h3 className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-[#F5F3EE] leading-tight">
-                          {project.title}
-                        </h3>
+                    </div>
+                  </div>
+
+                  {/* Content */}
+                  <div className="pt-2.5 sm:pt-4 md:pt-5 flex flex-col flex-grow justify-between gap-2 sm:gap-3">
+                    <div>
+                      <h3 className="text-xs sm:text-base md:text-xl lg:text-2xl font-bold text-[#F5F3EE] group-hover:text-[#8AFF00] transition-colors duration-300 leading-tight line-clamp-1 sm:line-clamp-2">
+                        {project.title}
+                      </h3>
+                      <p className="text-[10px] sm:text-xs text-white/50 mt-0.5 sm:mt-1 truncate hidden sm:block">
+                        {project.category}
+                      </p>
+                    </div>
+
+                    {/* Action Button */}
+                    <div className="pt-1 sm:pt-2 mt-auto">
+                      {project.demoUrl ? (
                         <a
                           href={project.demoUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="shrink-0 flex items-center gap-1.5 md:gap-2 px-3 py-2 md:px-5 md:py-3 rounded-xl bg-[#8AFF00] text-[#050505] text-[11px] md:text-sm font-bold hover:shadow-[0_0_20px_rgba(138,255,0,0.5)] transition-all active:scale-95 whitespace-nowrap"
+                          className="flex items-center justify-center gap-1 sm:gap-2 w-full py-1.5 sm:py-2.5 md:py-3 px-2 sm:px-4 rounded-lg sm:rounded-xl bg-[#8AFF00] text-[#050505] text-[10px] sm:text-xs md:text-sm font-bold hover:shadow-[0_0_20px_rgba(138,255,0,0.5)] hover:scale-[1.02] active:scale-95 transition-all duration-300 whitespace-nowrap"
                           onClick={(e) => e.stopPropagation()}
                         >
-                          Ver demo
-                          <ExternalLink className="w-3 h-3 md:w-4 md:h-4" />
+                          <span>Ver demo</span>
+                          <ExternalLink className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 shrink-0" />
                         </a>
-                      </div>
+                      ) : (
+                        <a
+                          href={`${WA_BASE}${encodeURIComponent(`Hola! Me gustaría consultar y solicitar una demo del desarrollo: ${project.title}`)}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center justify-center gap-1 sm:gap-2 w-full py-1.5 sm:py-2.5 md:py-3 px-2 sm:px-4 rounded-lg sm:rounded-xl bg-white/[0.06] border border-white/10 hover:border-[#8AFF00]/50 hover:bg-[#8AFF00]/10 text-white/90 hover:text-[#8AFF00] text-[10px] sm:text-xs md:text-sm font-medium hover:scale-[1.02] active:scale-95 transition-all duration-300 whitespace-nowrap backdrop-blur-md"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <span>Software Privado</span>
+                          <ArrowUpRight className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 shrink-0 text-[#8AFF00]" />
+                        </a>
+                      )}
                     </div>
                   </div>
                 </GlassPanel>
               </motion.div>
             ))}
           </AnimatePresence>
-        </div>
+        </motion.div>
 
-        {hasMore && !showAll && (
+        {/* Load More Button */}
+        {hasMore && (
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-80px' }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
             className="flex justify-center mt-8 md:mt-14"
           >
             <button
-              onClick={() => setShowAll(true)}
-              className="flex items-center gap-2 md:gap-3 px-6 py-3.5 md:px-8 md:py-4 rounded-xl border border-white/15 bg-white/[0.04] text-[#F5F3EE] font-semibold text-sm md:text-base hover:bg-[#8AFF00] hover:text-[#050505] hover:border-[#8AFF00] hover:shadow-[0_0_30px_rgba(138,255,0,0.25)] transition-all duration-300 backdrop-blur-md"
+              onClick={() => setVisibleCount((prev) => prev + 4)}
+              className="flex items-center gap-2 md:gap-3 px-6 py-3 sm:px-8 sm:py-3.5 rounded-full border border-white/15 bg-white/[0.04] text-[#F5F3EE] font-semibold text-xs sm:text-sm md:text-base hover:bg-[#8AFF00] hover:text-[#050505] hover:border-[#8AFF00] hover:shadow-[0_0_30px_rgba(138,255,0,0.3)] transition-all duration-300 backdrop-blur-md active:scale-95 cursor-pointer"
             >
-              Ver más proyectos
-              <ChevronDown className="w-4 h-4 md:w-5 md:h-5" />
+              <span>Ver más proyectos</span>
+              <ChevronDown className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5" />
             </button>
           </motion.div>
         )}
@@ -252,3 +325,4 @@ export const ProjectsSection = () => {
     </section>
   );
 };
+

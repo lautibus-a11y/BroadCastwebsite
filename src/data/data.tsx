@@ -62,27 +62,51 @@ export const SERVICES = [
   { id: 5, title: 'Diseños Interactivos',      icon: SvgMotion,    colSpan: 'md:col-span-1', desc: 'Experiencias digitales con las que los usuarios pueden interactuar, como menús digitales, invitaciones interactivas, catálogos y otros elementos dinámicos.',                       whatsappUrl: WA_BASE + encodeURIComponent('Hola, me interesa el servicio de Diseños Interactivos.') },
 ];
 
-export const PROJECTS = [
-  { id: 1, title: 'Inmobiliaria Premium', category: 'Portal Inmobiliario / Real Estate', image: '/imagenes-proyectos/Inmobiliaria-Website.webp', demoUrl: 'https://inmobiliaria-website.vercel.app/' },
-  { id: 2, title: 'Maderera', category: 'Web Corporativa / Carpintería', image: '/imagenes-proyectos/pagina-web-maderera-carpinteria.webp', demoUrl: 'https://pagina-web-maderera.vercel.app/' },
-  { id: 3, title: 'Estética & Belleza', category: 'Landing Page / Estética', image: '/imagenes-proyectos/pagina-web-estetica-belleza.webp', demoUrl: 'https://pagina-web-estetica.vercel.app/' },
-  { id: 4, title: 'Estudio Jurídico', category: 'Web Profesional / Legal', image: '/imagenes-proyectos/pagina-web-estudio-juridico.webp', demoUrl: 'https://pagina-web-abogadoss.vercel.app/' },
-  { id: 5, title: 'Cafetería Café Gourmet', category: 'Gastronomía / Cafetería', image: '/imagenes-proyectos/pagina-web-cafeteria.webp', demoUrl: 'https://cafeteria-pagina-web.vercel.app/' },
-  { id: 6, title: 'Instituto & Sistema de Gestión', category: 'SaaS / Educación', image: '/imagenes-proyectos/pagina-web-instituto-gestion-educativa.webp', demoUrl: 'https://web-sistema-de-gestion-educativo-ns.vercel.app/' },
-  { id: 7, title: 'Autopartes AutoElite', category: 'E-commerce / Autopartes', image: '/imagenes-proyectos/pagina-web-autopartes.webp', demoUrl: 'https://autoelite-parts.vercel.app/' },
-  { id: 8, title: 'Invitación Quince Años', category: 'Invitación Digital / Eventos', image: '/imagenes-proyectos/invitacion-quince-anos.webp', demoUrl: 'https://invitacion-xv-pied.vercel.app/' },
-  { id: 9, title: 'Salón & Turnero', category: 'App Web / Gestión de Turnos', image: '/imagenes-proyectos/pagina-web-salon-turnero-belleza.webp', demoUrl: 'https://invitacion-xv-pied.vercel.app/' },
-  { id: 10, title: 'Club de Campo', category: 'Landing Page / Real Estate', image: '/imagenes-proyectos/pagina-web-club-de-campo.webp', demoUrl: 'https://club-de-campo-web.vercel.app/' },
-  { id: 11, title: 'Ruleta Carousel', category: 'App Web / Marketing & Sorteos', image: '/imagenes-proyectos/app-web-ruleta-carousel.webp', demoUrl: 'https://belleza-by-naomi-ruleta.vercel.app/' },
-  { id: 12, title: 'Corralón de Materiales', category: 'Web Corporativa / Construcción', image: '/imagenes-proyectos/pagina-web-corralon-materiales.webp', demoUrl: 'https://corralon-web-two.vercel.app/' },
-  { id: 13, title: 'Casa del Té', category: 'Gastronomía / Menú', image: '/imagenes-proyectos/pagina-web-casa-del-te.webp', demoUrl: 'https://casa-del-te.vercel.app/' },
-  { id: 14, title: 'Parrilla & Menú Digital', category: 'Gastronomía / Grill', image: '/imagenes-proyectos/pagina-web-parrilla-menu.webp', demoUrl: 'https://parrilla-pagina-web.vercel.app/' },
-  { id: 15, title: 'HidroArquitectura', category: 'Diseño & Construcción', image: '/imagenes-proyectos/pagina-web-hidroarquitectura.webp', demoUrl: 'https://hidro-web-three.vercel.app/' },
-  { id: 16, title: 'Ruleta Giratoria', category: 'App Web / Marketing & Sorteos', image: '/imagenes-proyectos/app-web-ruleta-giratoria.webp', demoUrl: 'https://ruleta-gs-estetica.vercel.app/' },
-  { id: 17, title: 'Panadería & Menú', category: 'Gastronomía / Panadería', image: '/imagenes-proyectos/pagina-web-panaderia-menu.webp', demoUrl: 'https://panaderia-we-by-menu.vercel.app/' },
+export const PROJECT_TABS = [
+  { id: 'all', label: 'Todo' },
+  { id: 'web', label: 'Páginas web' },
+  { id: 'tienda', label: 'Tiendas' },
+  { id: 'software', label: 'Softwares' },
+] as const;
+
+export type ProjectTabId = (typeof PROJECT_TABS)[number]['id'];
+
+export interface ProjectItem {
+  id: number;
+  title: string;
+  category: string;
+  tab: 'web' | 'tienda' | 'software';
+  image: string;
+  demoUrl: string;
+}
+
+export const PROJECTS: ProjectItem[] = [
+  { id: 1, title: 'Inmobiliaria Premium', category: 'Portal Inmobiliario / Real Estate', tab: 'web', image: '/imagenes-proyectos/Inmobiliaria-Website.webp', demoUrl: 'https://inmobiliaria-website.vercel.app/' },
+  { id: 2, title: 'Maderera', category: 'Web Corporativa / Carpintería', tab: 'web', image: '/imagenes-proyectos/pagina-web-maderera-carpinteria.webp', demoUrl: 'https://pagina-web-maderera.vercel.app/' },
+  { id: 3, title: 'Estética & Belleza', category: 'Landing Page / Estética', tab: 'web', image: '/imagenes-proyectos/pagina-web-estetica-belleza.webp', demoUrl: 'https://pagina-web-estetica.vercel.app/' },
+  { id: 4, title: 'Estudio Jurídico', category: 'Web Profesional / Legal', tab: 'web', image: '/imagenes-proyectos/pagina-web-estudio-juridico.webp', demoUrl: 'https://pagina-web-abogadoss.vercel.app/' },
+  { id: 5, title: 'Cafetería Café Gourmet', category: 'Gastronomía / Cafetería', tab: 'web', image: '/imagenes-proyectos/pagina-web-cafeteria.webp', demoUrl: 'https://cafeteria-pagina-web.vercel.app/' },
+  { id: 6, title: 'Instituto & Sistema de Gestión', category: 'SaaS / Educación', tab: 'software', image: '/imagenes-proyectos/pagina-web-instituto-gestion-educativa.webp', demoUrl: 'https://web-sistema-de-gestion-educativo-ns.vercel.app/' },
+  { id: 7, title: 'Autopartes AutoElite', category: 'E-commerce / Autopartes', tab: 'tienda', image: '/imagenes-proyectos/pagina-web-autopartes.webp', demoUrl: 'https://autoelite-parts.vercel.app/' },
+  { id: 8, title: 'Invitación Quince Años', category: 'Invitación Digital / Eventos', tab: 'web', image: '/imagenes-proyectos/invitacion-quince-anos.webp', demoUrl: 'https://invitacion-xv-pied.vercel.app/' },
+  { id: 9, title: 'Salón & Turnero', category: 'App Web / Gestión de Turnos', tab: 'software', image: '/imagenes-proyectos/pagina-web-salon-turnero-belleza.webp', demoUrl: 'https://invitacion-xv-pied.vercel.app/' },
+  { id: 10, title: 'Club de Campo', category: 'Landing Page / Real Estate', tab: 'web', image: '/imagenes-proyectos/pagina-web-club-de-campo.webp', demoUrl: 'https://club-de-campo-web.vercel.app/' },
+  { id: 11, title: 'Ruleta Carousel', category: 'App Web / Marketing & Sorteos', tab: 'software', image: '/imagenes-proyectos/app-web-ruleta-carousel.webp', demoUrl: 'https://belleza-by-naomi-ruleta.vercel.app/' },
+  { id: 12, title: 'Corralón de Materiales', category: 'Web Corporativa / Construcción', tab: 'web', image: '/imagenes-proyectos/pagina-web-corralon-materiales.webp', demoUrl: 'https://corralon-web-two.vercel.app/' },
+  { id: 13, title: 'Casa del Té', category: 'Gastronomía / Menú', tab: 'tienda', image: '/imagenes-proyectos/pagina-web-casa-del-te.webp', demoUrl: 'https://casa-del-te.vercel.app/' },
+  { id: 14, title: 'Parrilla & Menú Digital', category: 'Gastronomía / Grill', tab: 'tienda', image: '/imagenes-proyectos/pagina-web-parrilla-menu.webp', demoUrl: 'https://parrilla-pagina-web.vercel.app/' },
+  { id: 15, title: 'HidroArquitectura', category: 'Diseño & Construcción', tab: 'web', image: '/imagenes-proyectos/pagina-web-hidroarquitectura.webp', demoUrl: 'https://hidro-web-three.vercel.app/' },
+  { id: 16, title: 'Ruleta Giratoria', category: 'App Web / Marketing & Sorteos', tab: 'software', image: '/imagenes-proyectos/app-web-ruleta-giratoria.webp', demoUrl: 'https://ruleta-gs-estetica.vercel.app/' },
+  { id: 17, title: 'Panadería & Menú', category: 'Gastronomía / Panadería', tab: 'tienda', image: '/imagenes-proyectos/pagina-web-panaderia-menu.webp', demoUrl: 'https://panaderia-we-by-menu.vercel.app/' },
+  { id: 18, title: 'Tienda de Agua', category: 'E-commerce / Aguas', tab: 'tienda', image: '/imagenes-proyectos/Tienda-de-agua-cimes.webp', demoUrl: 'https://tienda-de-agua-lh-cimes-local.vercel.app/' },
+  { id: 19, title: 'Menú Pizzería', category: 'Gastronomía / Menú', tab: 'tienda', image: '/imagenes-proyectos/Menu-Pizzeria-tienda-online.webp', demoUrl: 'https://pizzeria-app-silk.vercel.app/' },
+  { id: 20, title: 'Hoja de Ruta Inmobiliaria', category: 'Gestión / Real Estate', tab: 'software', image: '/imagenes-proyectos/Hoja-de-ruta-inmobiliaria.webp', demoUrl: 'https://hojaderuta-omega.vercel.app/' },
+  { id: 21, title: 'Página Web Cimes', category: 'Web Corporativa / Aguas', tab: 'web', image: '/imagenes-proyectos/Pagina-web-cimes.webp', demoUrl: 'https://paginaweb-cimes-loshermanos.vercel.app/' },
+  { id: 22, title: 'Generación de Actas con IA', category: 'Software / IA', tab: 'software', image: '/imagenes-proyectos/Sfotware de generacion de actas automaticas con IA.webp', demoUrl: '' },
+  { id: 23, title: 'Centralización de Cuentas', category: 'Software / Finanzas', tab: 'software', image: '/imagenes-proyectos/Sofware de centralizacion de cuenta bancarias y de mercago pago.webp', demoUrl: '' },
 ];
 
-export const INITIAL_VISIBLE = 3;
+export const INITIAL_VISIBLE = 4;
 
 export const PROCESS = [
   { step: '01', title: 'Descubrimiento', desc: 'Analizamos tu mercado, audiencia y objetivos de negocio en profundidad para encontrar el ángulo tecnológico perfecto.' },
