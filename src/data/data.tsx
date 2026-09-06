@@ -81,7 +81,7 @@ export interface ProjectItem {
 }
 
 export const PROJECTS: ProjectItem[] = [
-  { id: 1, title: 'Inmobiliaria Premium', category: 'Portal Inmobiliario / Real Estate', tab: 'web', image: '/imagenes-proyectos/Inmobiliaria-Website.webp', demoUrl: 'https://inmobiliaria-website.vercel.app/' },
+  { id: 1, title: 'Inmobiliaria Premium', category: 'Portal Inmobiliario / Real Estate', tab: 'web', image: '/imagenes-proyectos/Inmobiliaria-Website.webp', demoUrl: 'https://molinaivana.com.ar/' },
   { id: 2, title: 'Maderera', category: 'Web Corporativa / Carpintería', tab: 'web', image: '/imagenes-proyectos/pagina-web-maderera-carpinteria.webp', demoUrl: 'https://pagina-web-maderera.vercel.app/' },
   { id: 3, title: 'Estética & Belleza', category: 'Landing Page / Estética', tab: 'web', image: '/imagenes-proyectos/pagina-web-estetica-belleza.webp', demoUrl: 'https://pagina-web-estetica.vercel.app/' },
   { id: 4, title: 'Estudio Jurídico', category: 'Web Profesional / Legal', tab: 'web', image: '/imagenes-proyectos/pagina-web-estudio-juridico.webp', demoUrl: 'https://pagina-web-abogadoss.vercel.app/' },
