@@ -94,7 +94,7 @@ export const PROJECTS: ProjectItem[] = [
   { id: 11, title: 'Ruleta Carousel', category: 'App Web / Marketing & Sorteos', tab: 'software', image: '/imagenes-proyectos/app-web-ruleta-carousel.webp', demoUrl: 'https://belleza-by-naomi-ruleta.vercel.app/' },
   { id: 12, title: 'Corralón de Materiales', category: 'Web Corporativa / Construcción', tab: 'web', image: '/imagenes-proyectos/pagina-web-corralon-materiales.webp', demoUrl: 'https://corralon-web-two.vercel.app/' },
   { id: 13, title: 'Casa del Té', category: 'Gastronomía / Menú', tab: 'tienda', image: '/imagenes-proyectos/pagina-web-casa-del-te.webp', demoUrl: 'https://casa-del-te.vercel.app/' },
-  { id: 14, title: 'Parrilla & Menú Digital', category: 'Gastronomía / Grill', tab: 'tienda', image: '/imagenes-proyectos/pagina-web-parrilla-menu.webp', demoUrl: 'https://parrilla-pagina-web.vercel.app/' },
+  { id: 14, title: 'Parrilla & Menú Digital', category: 'Gastronomía / Grill', tab: 'tienda', image: '/imagenes-proyectos/pagina-web-parrilla-menu.webp', demoUrl: 'https://menu-parrilla-restobar.vercel.app' },
   { id: 15, title: 'HidroArquitectura', category: 'Diseño & Construcción', tab: 'web', image: '/imagenes-proyectos/pagina-web-hidroarquitectura.webp', demoUrl: 'https://hidro-web-three.vercel.app/' },
   { id: 16, title: 'Ruleta Giratoria', category: 'App Web / Marketing & Sorteos', tab: 'software', image: '/imagenes-proyectos/app-web-ruleta-giratoria.webp', demoUrl: 'https://ruleta-gs-estetica.vercel.app/' },
   { id: 17, title: 'Panadería & Menú', category: 'Gastronomía / Panadería', tab: 'tienda', image: '/imagenes-proyectos/pagina-web-panaderia-menu.webp', demoUrl: 'https://panaderia-we-by-menu.vercel.app/' },
