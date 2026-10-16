@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 // --- UTILS & HOOKS ---
@@ -160,7 +160,6 @@ export const AnimatedPieChart = ({ value, label, sublabel, delay = 0 }: {
 };
 
 export const CinematicLoader = ({ onComplete }: { onComplete: () => void }) => {
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
@@ -194,126 +193,6 @@ export const CinematicLoader = ({ onComplete }: { onComplete: () => void }) => {
     };
   }, []);
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    let animationId: number;
-    let particles: Array<{
-      x: number;
-      y: number;
-      vx: number;
-      vy: number;
-      radius: number;
-    }> = [];
-
-    const resizeCanvas = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      
-      const count = Math.min(65, Math.floor((canvas.width * canvas.height) / 18000));
-      particles = Array.from({ length: count }, () => ({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        vx: (Math.random() - 0.5) * 1.5,
-        vy: (Math.random() - 0.5) * 1.5,
-        radius: Math.random() * 1.5 + 1.2,
-      }));
-    };
-
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
-
-    const drawElectricArc = (x1: number, y1: number, x2: number, y2: number, opacity: number) => {
-      const dx = x2 - x1;
-      const dy = y2 - y1;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      
-      const segments = Math.max(3, Math.floor(dist / 15));
-      ctx.beginPath();
-      ctx.moveTo(x1, y1);
-      
-      for (let i = 1; i < segments; i++) {
-        const t = i / segments;
-        let lx = x1 + dx * t;
-        let ly = y1 + dy * t;
-        
-        const perpX = -dy / dist;
-        const perpY = dx / dist;
-        
-        const offset = (Math.random() - 0.5) * 12;
-        lx += perpX * offset;
-        ly += perpY * offset;
-        
-        ctx.lineTo(lx, ly);
-      }
-      
-      ctx.lineTo(x2, y2);
-      ctx.strokeStyle = `rgba(138, 255, 0, ${opacity * (Math.random() > 0.15 ? 0.35 : 0.08)})`;
-      ctx.lineWidth = Math.random() * 1.2 + 0.4;
-      ctx.stroke();
-    };
-
-    const draw = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      const threshold = Math.min(130, canvas.width / 6.5);
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x;
-          const dy = particles[i].y - particles[j].y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-
-          if (dist < threshold) {
-            const alpha = 1 - dist / threshold;
-            drawElectricArc(particles[i].x, particles[i].y, particles[j].x, particles[j].y, alpha);
-          }
-        }
-      }
-
-      particles.forEach((p) => {
-        p.vx += (Math.random() - 0.5) * 0.4;
-        p.vy += (Math.random() - 0.5) * 0.4;
-
-        const speed = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
-        const maxSpeed = 2.4;
-        if (speed > maxSpeed) {
-          p.vx = (p.vx / speed) * maxSpeed;
-          p.vy = (p.vy / speed) * maxSpeed;
-        }
-
-        p.x += p.vx;
-        p.y += p.vy;
-
-        if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
-        if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
-
-        const flickerRadius = p.radius * (Math.random() * 0.4 + 0.8);
-
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, flickerRadius, 0, Math.PI * 2);
-        ctx.fillStyle = '#8AFF00';
-        ctx.fill();
-
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, flickerRadius * 2.5, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(138, 255, 0, 0.15)';
-        ctx.fill();
-      });
-
-      animationId = requestAnimationFrame(draw);
-    };
-
-    draw();
-
-    return () => {
-      window.removeEventListener('resize', resizeCanvas);
-      cancelAnimationFrame(animationId);
-    };
-  }, []);
-
   return (
     <motion.div
       key="cinematic-loader"
@@ -324,7 +203,6 @@ export const CinematicLoader = ({ onComplete }: { onComplete: () => void }) => {
       }}
       className="fixed inset-0 z-50 bg-[#050505] flex flex-col items-center justify-center overflow-hidden select-none"
     >
-      <canvas ref={canvasRef} className="absolute inset-0 w-full h-full pointer-events-none z-0" />
       <div className="relative z-10 flex flex-col items-center text-center px-4">
         <div className="absolute w-48 h-48 rounded-full bg-[#8AFF00]/5 blur-[70px] pointer-events-none" />
         <motion.div
